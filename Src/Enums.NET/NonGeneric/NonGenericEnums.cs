@@ -58,7 +58,7 @@ namespace EnumsNET.NonGeneric
 #else
                         GetTypeInfo().GetDeclaredField("Info")
 #endif
-                    .GetValue(null), false);
+                    .GetValue(null!), false);
             }
             else
             {
@@ -274,7 +274,7 @@ namespace EnumsNET.NonGeneric
         /// -or-
         /// <paramref name="value"/> is not a valid type.</exception>
         /// <exception cref="OverflowException"><paramref name="value"/> is outside the underlying type's value range.</exception>
-        public static object ToObject(Type enumType, object value) => ToObject(enumType, value, EnumValidation.None);
+        public static object? ToObject(Type enumType, object? value) => ToObject(enumType, value, EnumValidation.None);
 
         /// <summary>
         /// Converts the specified <paramref name="value"/> to a value of type <paramref name="enumType"/> while checking that it doesn't overflow the
@@ -294,7 +294,7 @@ namespace EnumsNET.NonGeneric
         /// -or-
         /// the result is invalid with the specified <paramref name="validation"/>.</exception>
         /// <exception cref="OverflowException"><paramref name="value"/> is outside the underlying type's value range.</exception>
-        public static object ToObject(Type enumType, object value, EnumValidation validation)
+        public static object? ToObject(Type enumType, object? value, EnumValidation validation)
         {
             var info = GetNonGenericEnumInfo(enumType);
 
@@ -303,7 +303,7 @@ namespace EnumsNET.NonGeneric
                 return null;
             }
 
-            return info.EnumInfo.ToObject(value, validation);
+            return info.EnumInfo.ToObject(value!, validation);
         }
 
         /// <summary>
@@ -324,7 +324,7 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="OverflowException"><paramref name="value"/> is outside the underlying type's value range.</exception>
         [Obsolete("Use EnumValidation overload instead")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static object ToObject(Type enumType, object value, bool validate) => ToObject(enumType, value, validate ? EnumValidation.Default : EnumValidation.None);
+        public static object? ToObject(Type enumType, object? value, bool validate) => ToObject(enumType, value, validate ? EnumValidation.Default : EnumValidation.None);
 
         /// <summary>
         /// Converts the specified <paramref name="value"/> to a value of type <paramref name="enumType"/> while checking that it doesn't overflow the
@@ -717,7 +717,7 @@ namespace EnumsNET.NonGeneric
         /// <returns>Indication whether the conversion succeeded.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="enumType"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type.</exception>
-        public static bool TryToObject(Type enumType, object value, out object result) => TryToObject(enumType, value, EnumValidation.None, out result);
+        public static bool TryToObject(Type enumType, object? value, out object? result) => TryToObject(enumType, value, EnumValidation.None, out result);
 
         /// <summary>
         /// Tries to convert the specified <paramref name="value"/> to a value of type <paramref name="enumType"/> while checking that it doesn't overflow the
@@ -734,7 +734,7 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type
         /// -or-
         /// <paramref name="validation"/> is an invalid value.</exception>
-        public static bool TryToObject(Type enumType, object value, EnumValidation validation, out object result)
+        public static bool TryToObject(Type enumType, object? value, EnumValidation validation, out object? result)
         {
             var info = GetNonGenericEnumInfo(enumType);
 
@@ -762,7 +762,7 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type.</exception>
         [Obsolete("Use EnumValidation overload instead")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static bool TryToObject(Type enumType, object value, bool validate, out object result) => TryToObject(enumType, value, validate ? EnumValidation.Default : EnumValidation.None, out result);
+        public static bool TryToObject(Type enumType, object? value, bool validate, out object? result) => TryToObject(enumType, value, validate ? EnumValidation.Default : EnumValidation.None, out result);
 
         /// <summary>
         /// Tries to convert the specified <paramref name="value"/> to a value of type <paramref name="enumType"/> while checking that it doesn't overflow the
@@ -1143,7 +1143,7 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type
         /// -or-
         /// <paramref name="value"/> is of an invalid type.</exception>
-        public static bool IsValid(Type enumType, object value) => IsValid(enumType, value, EnumValidation.Default);
+        public static bool IsValid(Type enumType, object? value) => IsValid(enumType, value, EnumValidation.Default);
 
         /// <summary>
         /// Indicates if <paramref name="value"/> is valid. If <paramref name="enumType"/> is a standard enum it returns whether the value is defined.
@@ -1161,7 +1161,7 @@ namespace EnumsNET.NonGeneric
         /// <paramref name="value"/> is of an invalid type
         /// -or-
         /// <paramref name="validation"/> is an invalid value.</exception>
-        public static bool IsValid(Type enumType, object value, EnumValidation validation)
+        public static bool IsValid(Type enumType, object? value, EnumValidation validation)
         {
             var info = GetNonGenericEnumInfo(enumType);
 
@@ -1170,7 +1170,7 @@ namespace EnumsNET.NonGeneric
                 return true;
             }
 
-            return info.EnumInfo.IsValid(value, validation);
+            return info.EnumInfo.IsValid(value!, validation);
         }
 
         /// <summary>
@@ -1183,7 +1183,7 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type
         /// -or-
         /// <paramref name="value"/> is of an invalid type.</exception>
-        public static bool IsDefined(Type enumType, object value)
+        public static bool IsDefined(Type enumType, object? value)
         {
             var info = GetNonGenericEnumInfo(enumType);
 
@@ -1192,7 +1192,7 @@ namespace EnumsNET.NonGeneric
                 return false;
             }
 
-            return info.EnumInfo.IsDefined(value);
+            return info.EnumInfo.IsDefined(value!);
         }
 
         /// <summary>
@@ -1208,7 +1208,7 @@ namespace EnumsNET.NonGeneric
         /// <paramref name="value"/> is of an invalid type
         /// -or-
         /// <paramref name="value"/> is invalid.</exception>
-        public static object Validate(Type enumType, object value, string paramName) => Validate(enumType, value, paramName, EnumValidation.Default);
+        public static object? Validate(Type enumType, object? value, string paramName) => Validate(enumType, value, paramName, EnumValidation.Default);
 
         /// <summary>
         /// Validates that <paramref name="value"/> is valid. If it's not it throws an <see cref="ArgumentException"/> with the specified <paramref name="paramName"/>.
@@ -1226,7 +1226,7 @@ namespace EnumsNET.NonGeneric
         /// <paramref name="validation"/> is an invalid value
         /// -or-
         /// <paramref name="value"/> is invalid.</exception>
-        public static object Validate(Type enumType, object value, string paramName, EnumValidation validation)
+        public static object? Validate(Type enumType, object? value, string paramName, EnumValidation validation)
         {
             var info = GetNonGenericEnumInfo(enumType);
 
@@ -1235,7 +1235,7 @@ namespace EnumsNET.NonGeneric
                 return null;
             }
 
-            return info.EnumInfo.Validate(value, paramName, validation);
+            return info.EnumInfo.Validate(value!, paramName, validation);
         }
 
         /// <summary>
@@ -1248,7 +1248,7 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type
         /// -or-
         /// <paramref name="value"/> is of an invalid type.</exception>
-        public static string AsString(Type enumType, object value)
+        public static string? AsString(Type enumType, object? value)
         {
             var info = GetNonGenericEnumInfo(enumType);
 
@@ -1257,7 +1257,7 @@ namespace EnumsNET.NonGeneric
                 return null;
             }
 
-            return info.EnumInfo.AsString(value);
+            return info.EnumInfo.AsString(value!);
         }
 
         /// <summary>
@@ -1272,7 +1272,7 @@ namespace EnumsNET.NonGeneric
         /// -or-
         /// <paramref name="value"/> is of an invalid type.</exception>
         /// <exception cref="FormatException"><paramref name="format"/> is an invalid value.</exception>
-        public static string AsString(Type enumType, object value, string format)
+        public static string? AsString(Type enumType, object? value, string? format)
         {
             var info = GetNonGenericEnumInfo(enumType);
 
@@ -1281,7 +1281,7 @@ namespace EnumsNET.NonGeneric
                 return null;
             }
 
-            return info.EnumInfo.AsString(value, format);
+            return info.EnumInfo.AsString(value!, format);
         }
 
         /// <summary>
@@ -1295,7 +1295,7 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type
         /// -or-
         /// <paramref name="format"/> is an invalid value.</exception>
-        public static string AsString(Type enumType, object value, EnumFormat format)
+        public static string? AsString(Type enumType, object? value, EnumFormat format)
         {
             var info = GetNonGenericEnumInfo(enumType);
 
@@ -1304,7 +1304,7 @@ namespace EnumsNET.NonGeneric
                 return null;
             }
 
-            return info.EnumInfo.AsString(value, format);
+            return info.EnumInfo.AsString(value!, format);
         }
 
         /// <summary>
@@ -1319,7 +1319,7 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type
         /// -or-
         /// <paramref name="format0"/> or <paramref name="format1"/> is an invalid value.</exception>
-        public static string AsString(Type enumType, object value, EnumFormat format0, EnumFormat format1)
+        public static string? AsString(Type enumType, object? value, EnumFormat format0, EnumFormat format1)
         {
             var info = GetNonGenericEnumInfo(enumType);
 
@@ -1328,7 +1328,7 @@ namespace EnumsNET.NonGeneric
                 return null;
             }
 
-            return info.EnumInfo.AsString(value, new ValueCollection<EnumFormat>(format0, format1));
+            return info.EnumInfo.AsString(value!, new ValueCollection<EnumFormat>(format0, format1));
         }
 
         /// <summary>
@@ -1344,7 +1344,7 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type
         /// -or-
         /// <paramref name="format0"/>, <paramref name="format1"/>, or <paramref name="format2"/> is an invalid value.</exception>
-        public static string AsString(Type enumType, object value, EnumFormat format0, EnumFormat format1, EnumFormat format2)
+        public static string? AsString(Type enumType, object? value, EnumFormat format0, EnumFormat format1, EnumFormat format2)
         {
             var info = GetNonGenericEnumInfo(enumType);
 
@@ -1353,7 +1353,7 @@ namespace EnumsNET.NonGeneric
                 return null;
             }
 
-            return info.EnumInfo.AsString(value, new ValueCollection<EnumFormat>(format0, format1, format2));
+            return info.EnumInfo.AsString(value!, new ValueCollection<EnumFormat>(format0, format1, format2));
         }
 
         /// <summary>
@@ -1367,7 +1367,7 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type
         /// -or-
         /// <paramref name="formats"/> contains an invalid value.</exception>
-        public static string AsString(Type enumType, object value, params EnumFormat[] formats)
+        public static string? AsString(Type enumType, object? value, params EnumFormat[]? formats)
         {
             var info = GetNonGenericEnumInfo(enumType);
 
@@ -1376,7 +1376,7 @@ namespace EnumsNET.NonGeneric
                 return null;
             }
 
-            return info.EnumInfo.AsString(value, new ValueCollection<EnumFormat>(formats));
+            return info.EnumInfo.AsString(value!, new ValueCollection<EnumFormat>(formats));
         }
 
         /// <summary>
@@ -1391,7 +1391,7 @@ namespace EnumsNET.NonGeneric
         /// -or-
         /// <paramref name="value"/> is of an invalid type.</exception>
         /// <exception cref="FormatException"><paramref name="format"/> is an invalid value.</exception>
-        public static string Format(Type enumType, object value, string format)
+        public static string? Format(Type enumType, object? value, string format)
         {
             var info = GetNonGenericEnumInfo(enumType);
 
@@ -1400,7 +1400,7 @@ namespace EnumsNET.NonGeneric
                 return null;
             }
 
-            return info.EnumInfo.Format(value, format);
+            return info.EnumInfo.Format(value!, format);
         }
 
         /// <summary>
@@ -1416,7 +1416,7 @@ namespace EnumsNET.NonGeneric
         /// <paramref name="value"/> is of an invalid type
         /// -or-
         /// <paramref name="formats"/> contains an invalid value.</exception>
-        public static string Format(Type enumType, object value, params EnumFormat[] formats)
+        public static string? Format(Type enumType, object? value, params EnumFormat[] formats)
         {
             Preconditions.NotNull(formats, nameof(formats));
 
@@ -1433,7 +1433,7 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type
         /// -or-
         /// <paramref name="value"/> is of an invalid type.</exception>
-        public static object GetUnderlyingValue(Type enumType, object value)
+        public static object? GetUnderlyingValue(Type enumType, object? value)
         {
             var info = GetNonGenericEnumInfo(enumType);
 
@@ -1442,7 +1442,7 @@ namespace EnumsNET.NonGeneric
                 return null;
             }
 
-            return info.EnumInfo.GetUnderlyingValue(value);
+            return info.EnumInfo.GetUnderlyingValue(value!);
         }
 
         /// <summary>
@@ -1564,9 +1564,9 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type
         /// -or-
         /// <paramref name="value"/> or <paramref name="other"/> is of an invalid type.</exception>
-        public static bool Equals(Type enumType, object value, object other) => EqualsInternal(GetNonGenericEnumInfo(enumType), value, other);
+        public static bool Equals(Type enumType, object? value, object? other) => EqualsInternal(GetNonGenericEnumInfo(enumType), value, other);
 
-        internal static bool EqualsInternal(NonGenericEnumInfo info, object value, object other)
+        internal static bool EqualsInternal(NonGenericEnumInfo info, object? value, object? other)
         {
             var enumInfo = info.EnumInfo;
 
@@ -1588,7 +1588,7 @@ namespace EnumsNET.NonGeneric
                 }
             }
 
-            return enumInfo.Equals(value, other);
+            return enumInfo.Equals(value!, other!);
         }
 
         /// <summary>
@@ -1603,9 +1603,9 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type
         /// -or-
         /// <paramref name="value"/> or <paramref name="other"/> is of an invalid type.</exception>
-        public static int CompareTo(Type enumType, object value, object other) => CompareToInternal(GetNonGenericEnumInfo(enumType), value, other);
+        public static int CompareTo(Type enumType, object? value, object? other) => CompareToInternal(GetNonGenericEnumInfo(enumType), value, other);
 
-        internal static int CompareToInternal(NonGenericEnumInfo info, object value, object other)
+        internal static int CompareToInternal(NonGenericEnumInfo info, object? value, object? other)
         {
             var enumInfo = info.EnumInfo;
             if (info.IsNullable)
@@ -1626,7 +1626,7 @@ namespace EnumsNET.NonGeneric
                 }
             }
 
-            return enumInfo.CompareTo(value, other);
+            return enumInfo.CompareTo(value!, other!);
         }
         #endregion
 
@@ -1641,7 +1641,7 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type
         /// -or-
         /// <paramref name="value"/> is of an invalid type.</exception>
-        public static string GetName(Type enumType, object value)
+        public static string? GetName(Type enumType, object? value)
         {
             var info = GetNonGenericEnumInfo(enumType);
 
@@ -1650,7 +1650,7 @@ namespace EnumsNET.NonGeneric
                 return null;
             }
 
-            return info.EnumInfo.GetName(value);
+            return info.EnumInfo.GetName(value!);
         }
 
         /// <summary>
@@ -1663,7 +1663,7 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type
         /// -or-
         /// <paramref name="value"/> is of an invalid type.</exception>
-        public static AttributeCollection GetAttributes(Type enumType, object value)
+        public static AttributeCollection? GetAttributes(Type enumType, object? value)
         {
             var info = GetNonGenericEnumInfo(enumType);
 
@@ -1672,7 +1672,7 @@ namespace EnumsNET.NonGeneric
                 return null;
             }
 
-            return info.EnumInfo.GetAttributes(value);
+            return info.EnumInfo.GetAttributes(value!);
         }
 
         /// <summary>
@@ -1685,7 +1685,7 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type
         /// -or-
         /// <paramref name="value"/> is of an invalid type.</exception>
-        public static EnumMember GetMember(Type enumType, object value)
+        public static EnumMember? GetMember(Type enumType, object? value)
         {
             var info = GetNonGenericEnumInfo(enumType);
 
@@ -1694,7 +1694,7 @@ namespace EnumsNET.NonGeneric
                 return null;
             }
 
-            return info.EnumInfo.GetMember(value);
+            return info.EnumInfo.GetMember(value!);
         }
 
         /// <summary>
@@ -1706,7 +1706,7 @@ namespace EnumsNET.NonGeneric
         /// <returns>Enum member with the specified <paramref name="name"/> if defined otherwise <c>null</c>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="enumType"/> or <paramref name="name"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type.</exception>
-        public static EnumMember GetMember(Type enumType, string name) => GetInfo(enumType).GetMember(name);
+        public static EnumMember? GetMember(Type enumType, string name) => GetInfo(enumType).GetMember(name);
 
         /// <summary>
         /// Retrieves the enum member with the specified <paramref name="name"/> if defined otherwise <c>null</c>.
@@ -1718,7 +1718,7 @@ namespace EnumsNET.NonGeneric
         /// <returns>Enum member with the specified <paramref name="name"/> if defined otherwise <c>null</c>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="enumType"/> or <paramref name="name"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type.</exception>
-        public static EnumMember GetMember(Type enumType, string name, bool ignoreCase) => GetInfo(enumType).GetMember(name, ignoreCase);
+        public static EnumMember? GetMember(Type enumType, string name, bool ignoreCase) => GetInfo(enumType).GetMember(name, ignoreCase);
 
         /// <summary>
         /// Retrieves an enum member whose string representation using the specified <paramref name="format"/> is <paramref name="value"/> if defined otherwise <c>null</c>.
@@ -1731,7 +1731,7 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type
         /// -or-
         /// <paramref name="format"/> is an invalid value.</exception>
-        public static EnumMember GetMember(Type enumType, string value, EnumFormat format) => GetMember(enumType, value, false, format);
+        public static EnumMember? GetMember(Type enumType, string value, EnumFormat format) => GetMember(enumType, value, false, format);
 
         /// <summary>
         /// Retrieves an enum member whose string representation using the specified formats is <paramref name="value"/> if defined otherwise <c>null</c>.
@@ -1745,7 +1745,7 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type
         /// -or-
         /// <paramref name="format0"/> or <paramref name="format1"/> is an invalid value.</exception>
-        public static EnumMember GetMember(Type enumType, string value, EnumFormat format0, EnumFormat format1) => GetMember(enumType, value, false, format0, format1);
+        public static EnumMember? GetMember(Type enumType, string value, EnumFormat format0, EnumFormat format1) => GetMember(enumType, value, false, format0, format1);
 
         /// <summary>
         /// Retrieves an enum member whose string representation using the specified formats is <paramref name="value"/> if defined otherwise <c>null</c>.
@@ -1760,7 +1760,7 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type
         /// -or-
         /// <paramref name="format0"/>, <paramref name="format1"/>, or <paramref name="format2"/> is an invalid value.</exception>
-        public static EnumMember GetMember(Type enumType, string value, EnumFormat format0, EnumFormat format1, EnumFormat format2) => GetMember(enumType, value, false, format0, format1, format2);
+        public static EnumMember? GetMember(Type enumType, string value, EnumFormat format0, EnumFormat format1, EnumFormat format2) => GetMember(enumType, value, false, format0, format1, format2);
 
         /// <summary>
         /// Retrieves an enum member whose string representation using the specified <paramref name="formats"/> is <paramref name="value"/> if defined otherwise <c>null</c>.
@@ -1773,7 +1773,7 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type
         /// -or-
         /// <paramref name="formats"/> contains an invalid value.</exception>
-        public static EnumMember GetMember(Type enumType, string value, params EnumFormat[] formats) => GetMember(enumType, value, false, formats);
+        public static EnumMember? GetMember(Type enumType, string value, params EnumFormat[]? formats) => GetMember(enumType, value, false, formats);
 
         /// <summary>
         /// Retrieves an enum member whose string representation using the specified <paramref name="format"/> is <paramref name="value"/> if defined otherwise <c>null</c>.
@@ -1788,7 +1788,7 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type
         /// -or-
         /// <paramref name="format"/> is an invalid value.</exception>
-        public static EnumMember GetMember(Type enumType, string value, bool ignoreCase, EnumFormat format) => GetInfo(enumType).GetMember(value, ignoreCase, new ValueCollection<EnumFormat>(format));
+        public static EnumMember? GetMember(Type enumType, string value, bool ignoreCase, EnumFormat format) => GetInfo(enumType).GetMember(value, ignoreCase, new ValueCollection<EnumFormat>(format));
 
         /// <summary>
         /// Retrieves an enum member whose string representation using the specified formats is <paramref name="value"/> if defined otherwise <c>null</c>.
@@ -1804,7 +1804,7 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type
         /// -or-
         /// <paramref name="format0"/> or <paramref name="format1"/> is an invalid value.</exception>
-        public static EnumMember GetMember(Type enumType, string value, bool ignoreCase, EnumFormat format0, EnumFormat format1) => GetInfo(enumType).GetMember(value, ignoreCase, new ValueCollection<EnumFormat>(format0, format1));
+        public static EnumMember? GetMember(Type enumType, string value, bool ignoreCase, EnumFormat format0, EnumFormat format1) => GetInfo(enumType).GetMember(value, ignoreCase, new ValueCollection<EnumFormat>(format0, format1));
 
         /// <summary>
         /// Retrieves an enum member whose string representation using the specified formats is <paramref name="value"/> if defined otherwise <c>null</c>.
@@ -1821,7 +1821,7 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type
         /// -or-
         /// <paramref name="format0"/>, <paramref name="format1"/>, or <paramref name="format2"/> is an invalid value.</exception>
-        public static EnumMember GetMember(Type enumType, string value, bool ignoreCase, EnumFormat format0, EnumFormat format1, EnumFormat format2) => GetInfo(enumType).GetMember(value, ignoreCase, new ValueCollection<EnumFormat>(format0, format1, format2));
+        public static EnumMember? GetMember(Type enumType, string value, bool ignoreCase, EnumFormat format0, EnumFormat format1, EnumFormat format2) => GetInfo(enumType).GetMember(value, ignoreCase, new ValueCollection<EnumFormat>(format0, format1, format2));
 
         /// <summary>
         /// Retrieves an enum member whose string representation using the specified <paramref name="formats"/> is <paramref name="value"/> if defined otherwise <c>null</c>.
@@ -1836,7 +1836,7 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type
         /// -or-
         /// <paramref name="formats"/> contains an invalid value.</exception>
-        public static EnumMember GetMember(Type enumType, string value, bool ignoreCase, params EnumFormat[] formats) => GetInfo(enumType).GetMember(value, ignoreCase, new ValueCollection<EnumFormat>(formats));
+        public static EnumMember? GetMember(Type enumType, string value, bool ignoreCase, params EnumFormat[]? formats) => GetInfo(enumType).GetMember(value, ignoreCase, new ValueCollection<EnumFormat>(formats));
 
         /// <summary>
         /// Retrieves an enum member with the specified <paramref name="value"/> if defined otherwise <c>null</c>.
@@ -1850,7 +1850,7 @@ namespace EnumsNET.NonGeneric
         /// <paramref name="value"/> is of an invalid type.</exception>
         [Obsolete("Renamed to GetMember. This method will be removed in a future version.")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static EnumMember GetEnumMember(Type enumType, object value) => GetMember(enumType, value);
+        public static EnumMember? GetEnumMember(Type enumType, object? value) => GetMember(enumType, value);
 
         /// <summary>
         /// Retrieves the enum member with the specified <paramref name="name"/> if defined otherwise <c>null</c>.
@@ -1863,7 +1863,7 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type.</exception>
         [Obsolete("Renamed to GetMember. This method will be removed in a future version.")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static EnumMember GetEnumMember(Type enumType, string name) => GetMember(enumType, name);
+        public static EnumMember? GetEnumMember(Type enumType, string name) => GetMember(enumType, name);
 
         /// <summary>
         /// Retrieves the enum member with the specified <paramref name="name"/> if defined otherwise <c>null</c>.
@@ -1877,7 +1877,7 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type.</exception>
         [Obsolete("Renamed to GetMember. This method will be removed in a future version.")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static EnumMember GetEnumMember(Type enumType, string name, bool ignoreCase) => GetMember(enumType, name, ignoreCase);
+        public static EnumMember? GetEnumMember(Type enumType, string name, bool ignoreCase) => GetMember(enumType, name, ignoreCase);
 
         /// <summary>
         /// Retrieves an enum member whose string representation using the specified <paramref name="formats"/> is <paramref name="value"/> if defined otherwise <c>null</c>.
@@ -1892,7 +1892,7 @@ namespace EnumsNET.NonGeneric
         /// <paramref name="formats"/> contains an invalid value.</exception>
         [Obsolete("Renamed to GetMember. This method will be removed in a future version.")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static EnumMember GetEnumMember(Type enumType, string value, params EnumFormat[] formats) => GetMember(enumType, value, formats);
+        public static EnumMember? GetEnumMember(Type enumType, string value, params EnumFormat[]? formats) => GetMember(enumType, value, formats);
 
         /// <summary>
         /// Retrieves an enum member whose string representation using the specified <paramref name="formats"/> is <paramref name="value"/> if defined otherwise <c>null</c>.
@@ -1909,7 +1909,7 @@ namespace EnumsNET.NonGeneric
         /// <paramref name="formats"/> contains an invalid value.</exception>
         [Obsolete("Renamed to GetMember. This method will be removed in a future version.")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static EnumMember GetEnumMember(Type enumType, string value, bool ignoreCase, params EnumFormat[] formats) => GetMember(enumType, value, ignoreCase, formats);
+        public static EnumMember? GetEnumMember(Type enumType, string value, bool ignoreCase, params EnumFormat[]? formats) => GetMember(enumType, value, ignoreCase, formats);
         #endregion
 
         #region Parsing
@@ -1924,7 +1924,7 @@ namespace EnumsNET.NonGeneric
         /// -or-
         /// <paramref name="value"/> doesn't represent a member name or value of <paramref name="enumType"/>.</exception>
         /// <exception cref="OverflowException"><paramref name="value"/> is outside the range of <paramref name="enumType"/>'s underlying type.</exception>
-        public static object Parse(Type enumType, string value) => Parse(enumType, value, false, null);
+        public static object? Parse(Type enumType, string? value) => Parse(enumType, value, false, null);
 
         /// <summary>
         /// Converts the string representation of one or more members or values of <paramref name="enumType"/> to its respective value of type <paramref name="enumType"/>
@@ -1941,7 +1941,7 @@ namespace EnumsNET.NonGeneric
         /// -or-
         /// <paramref name="format"/> is an invalid value.</exception>
         /// <exception cref="OverflowException"><paramref name="value"/> is outside the range of the underlying type of <paramref name="enumType"/>.</exception>
-        public static object Parse(Type enumType, string value, EnumFormat format) => Parse(enumType, value, false, format);
+        public static object? Parse(Type enumType, string? value, EnumFormat format) => Parse(enumType, value, false, format);
 
         /// <summary>
         /// Converts the string representation of one or more members or values of <paramref name="enumType"/> to its respective value of type <paramref name="enumType"/>
@@ -1959,7 +1959,7 @@ namespace EnumsNET.NonGeneric
         /// -or-
         /// <paramref name="format0"/> or <paramref name="format1"/> is an invalid value.</exception>
         /// <exception cref="OverflowException"><paramref name="value"/> is outside the range of the underlying type of <paramref name="enumType"/>.</exception>
-        public static object Parse(Type enumType, string value, EnumFormat format0, EnumFormat format1) => Parse(enumType, value, false, format0, format1);
+        public static object? Parse(Type enumType, string? value, EnumFormat format0, EnumFormat format1) => Parse(enumType, value, false, format0, format1);
 
         /// <summary>
         /// Converts the string representation of one or more members or values of <paramref name="enumType"/> to its respective value of type <paramref name="enumType"/>
@@ -1978,7 +1978,7 @@ namespace EnumsNET.NonGeneric
         /// -or-
         /// <paramref name="format0"/>, <paramref name="format1"/>, or <paramref name="format2"/> is an invalid value.</exception>
         /// <exception cref="OverflowException"><paramref name="value"/> is outside the range of the underlying type of <paramref name="enumType"/>.</exception>
-        public static object Parse(Type enumType, string value, EnumFormat format0, EnumFormat format1, EnumFormat format2) => Parse(enumType, value, false, format0, format1, format2);
+        public static object? Parse(Type enumType, string? value, EnumFormat format0, EnumFormat format1, EnumFormat format2) => Parse(enumType, value, false, format0, format1, format2);
 
         /// <summary>
         /// Converts the string representation of one or more members or values of <paramref name="enumType"/> to its respective value of type <paramref name="enumType"/>
@@ -1995,7 +1995,7 @@ namespace EnumsNET.NonGeneric
         /// -or-
         /// <paramref name="formats"/> contains an invalid value.</exception>
         /// <exception cref="OverflowException"><paramref name="value"/> is outside the range of the underlying type of <paramref name="enumType"/>.</exception>
-        public static object Parse(Type enumType, string value, params EnumFormat[] formats) => Parse(enumType, value, false, formats);
+        public static object? Parse(Type enumType, string? value, params EnumFormat[]? formats) => Parse(enumType, value, false, formats);
 
         /// <summary>
         /// Converts the string representation of one or more member names or values of <paramref name="enumType"/> to its respective value of type <paramref name="enumType"/>.
@@ -2010,7 +2010,7 @@ namespace EnumsNET.NonGeneric
         /// -or-
         /// <paramref name="value"/> doesn't represent a member name or value of <paramref name="enumType"/>.</exception>
         /// <exception cref="OverflowException"><paramref name="value"/> is outside the range of the underlying type of <paramref name="enumType"/>.</exception>
-        public static object Parse(Type enumType, string value, bool ignoreCase) => Parse(enumType, value, ignoreCase, null);
+        public static object? Parse(Type enumType, string? value, bool ignoreCase) => Parse(enumType, value, ignoreCase, null);
 
         /// <summary>
         /// Converts the string representation of one or more members or values of <paramref name="enumType"/> to its respective value of type <paramref name="enumType"/>
@@ -2028,16 +2028,16 @@ namespace EnumsNET.NonGeneric
         /// -or-
         /// <paramref name="format"/> is an invalid value.</exception>
         /// <exception cref="OverflowException"><paramref name="value"/> is outside the range of the underlying type of <paramref name="enumType"/>.</exception>
-        public static object Parse(Type enumType, string value, bool ignoreCase, EnumFormat format)
+        public static object? Parse(Type enumType, string? value, bool ignoreCase, EnumFormat format)
         {
             var info = GetNonGenericEnumInfo(enumType);
 
-            if (info.IsNullable && string.IsNullOrEmpty(value))
+            if (info.IsNullable && string.IsNullOrEmpty(value!))
             {
                 return null;
             }
 
-            return info.EnumInfo.Parse(value, ignoreCase, new ValueCollection<EnumFormat>(format));
+            return info.EnumInfo.Parse(value!, ignoreCase, new ValueCollection<EnumFormat>(format));
         }
 
         /// <summary>
@@ -2057,16 +2057,16 @@ namespace EnumsNET.NonGeneric
         /// -or-
         /// <paramref name="format0"/> or <paramref name="format1"/> is an invalid value.</exception>
         /// <exception cref="OverflowException"><paramref name="value"/> is outside the range of the underlying type of <paramref name="enumType"/>.</exception>
-        public static object Parse(Type enumType, string value, bool ignoreCase, EnumFormat format0, EnumFormat format1)
+        public static object? Parse(Type enumType, string? value, bool ignoreCase, EnumFormat format0, EnumFormat format1)
         {
             var info = GetNonGenericEnumInfo(enumType);
 
-            if (info.IsNullable && string.IsNullOrEmpty(value))
+            if (info.IsNullable && string.IsNullOrEmpty(value!))
             {
                 return null;
             }
 
-            return info.EnumInfo.Parse(value, ignoreCase, new ValueCollection<EnumFormat>(format0, format1));
+            return info.EnumInfo.Parse(value!, ignoreCase, new ValueCollection<EnumFormat>(format0, format1));
         }
 
         /// <summary>
@@ -2087,16 +2087,16 @@ namespace EnumsNET.NonGeneric
         /// -or-
         /// <paramref name="format0"/>, <paramref name="format1"/>, or <paramref name="format2"/> is an invalid value.</exception>
         /// <exception cref="OverflowException"><paramref name="value"/> is outside the range of the underlying type of <paramref name="enumType"/>.</exception>
-        public static object Parse(Type enumType, string value, bool ignoreCase, EnumFormat format0, EnumFormat format1, EnumFormat format2)
+        public static object? Parse(Type enumType, string? value, bool ignoreCase, EnumFormat format0, EnumFormat format1, EnumFormat format2)
         {
             var info = GetNonGenericEnumInfo(enumType);
 
-            if (info.IsNullable && string.IsNullOrEmpty(value))
+            if (info.IsNullable && string.IsNullOrEmpty(value!))
             {
                 return null;
             }
 
-            return info.EnumInfo.Parse(value, ignoreCase, new ValueCollection<EnumFormat>(format0, format1, format2));
+            return info.EnumInfo.Parse(value!, ignoreCase, new ValueCollection<EnumFormat>(format0, format1, format2));
         }
 
         /// <summary>
@@ -2115,16 +2115,16 @@ namespace EnumsNET.NonGeneric
         /// -or-
         /// <paramref name="formats"/> contains an invalid value.</exception>
         /// <exception cref="OverflowException"><paramref name="value"/> is outside the range of the underlying type of <paramref name="enumType"/>.</exception>
-        public static object Parse(Type enumType, string value, bool ignoreCase, params EnumFormat[] formats)
+        public static object? Parse(Type enumType, string? value, bool ignoreCase, params EnumFormat[]? formats)
         {
             var info = GetNonGenericEnumInfo(enumType);
 
-            if (info.IsNullable && string.IsNullOrEmpty(value))
+            if (info.IsNullable && string.IsNullOrEmpty(value!))
             {
                 return null;
             }
 
-            return info.EnumInfo.Parse(value, ignoreCase, new ValueCollection<EnumFormat>(formats));
+            return info.EnumInfo.Parse(value!, ignoreCase, new ValueCollection<EnumFormat>(formats));
         }
 
         /// <summary>
@@ -2137,7 +2137,7 @@ namespace EnumsNET.NonGeneric
         /// <returns>Indication whether the conversion succeeded.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="enumType"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type.</exception>
-        public static bool TryParse(Type enumType, string value, out object result) => TryParse(enumType, value, false, out result, null);
+        public static bool TryParse(Type enumType, string? value, out object? result) => TryParse(enumType, value, false, out result, null);
 
         /// <summary>
         /// Tries to convert the string representation of one or more members or values of <paramref name="enumType"/> to its respective value of type <paramref name="enumType"/>
@@ -2153,7 +2153,7 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type
         /// -or-
         /// <paramref name="format"/> is an invalid value.</exception>
-        public static bool TryParse(Type enumType, string value, out object result, EnumFormat format) => TryParse(enumType, value, false, out result, format);
+        public static bool TryParse(Type enumType, string? value, out object? result, EnumFormat format) => TryParse(enumType, value, false, out result, format);
 
         /// <summary>
         /// Tries to convert the string representation of one or more members or values of <paramref name="enumType"/> to its respective value of type <paramref name="enumType"/>
@@ -2170,7 +2170,7 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type
         /// -or-
         /// <paramref name="format0"/> or <paramref name="format1"/> is an invalid value.</exception>
-        public static bool TryParse(Type enumType, string value, out object result, EnumFormat format0, EnumFormat format1) => TryParse(enumType, value, false, out result, format0, format1);
+        public static bool TryParse(Type enumType, string? value, out object? result, EnumFormat format0, EnumFormat format1) => TryParse(enumType, value, false, out result, format0, format1);
 
         /// <summary>
         /// Tries to convert the string representation of one or more members or values of <paramref name="enumType"/> to its respective value of type <paramref name="enumType"/>
@@ -2188,7 +2188,7 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type
         /// -or-
         /// <paramref name="format0"/>, <paramref name="format1"/>, or <paramref name="format2"/> is an invalid value.</exception>
-        public static bool TryParse(Type enumType, string value, out object result, EnumFormat format0, EnumFormat format1, EnumFormat format2) => TryParse(enumType, value, false, out result, format0, format1, format2);
+        public static bool TryParse(Type enumType, string? value, out object? result, EnumFormat format0, EnumFormat format1, EnumFormat format2) => TryParse(enumType, value, false, out result, format0, format1, format2);
 
         /// <summary>
         /// Tries to convert the string representation of one or more members or values of <paramref name="enumType"/> to its respective value of type <paramref name="enumType"/>
@@ -2203,7 +2203,7 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type
         /// -or-
         /// <paramref name="formats"/> contains an invalid value.</exception>
-        public static bool TryParse(Type enumType, string value, out object result, params EnumFormat[] formats) => TryParse(enumType, value, false, out result, formats);
+        public static bool TryParse(Type enumType, string? value, out object? result, params EnumFormat[]? formats) => TryParse(enumType, value, false, out result, formats);
 
         /// <summary>
         /// Tries to convert the string representation of one or more member names or values of <paramref name="enumType"/> to its respective value of type <paramref name="enumType"/>.
@@ -2216,7 +2216,7 @@ namespace EnumsNET.NonGeneric
         /// <returns>Indication whether the conversion succeeded.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="enumType"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type.</exception>
-        public static bool TryParse(Type enumType, string value, bool ignoreCase, out object result) => TryParse(enumType, value, ignoreCase, out result, null);
+        public static bool TryParse(Type enumType, string? value, bool ignoreCase, out object? result) => TryParse(enumType, value, ignoreCase, out result, null);
 
         /// <summary>
         /// Tries to convert the string representation of one or more members or values of <paramref name="enumType"/> to its respective value of type <paramref name="enumType"/>
@@ -2233,11 +2233,11 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type
         /// -or-
         /// <paramref name="format"/> is an invalid value.</exception>
-        public static bool TryParse(Type enumType, string value, bool ignoreCase, out object result, EnumFormat format)
+        public static bool TryParse(Type enumType, string? value, bool ignoreCase, out object? result, EnumFormat format)
         {
             var info = GetNonGenericEnumInfo(enumType);
 
-            if (string.IsNullOrEmpty(value) && info.IsNullable)
+            if (string.IsNullOrEmpty(value!) && info.IsNullable)
             {
                 result = null;
                 return true;
@@ -2262,11 +2262,11 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type
         /// -or-
         /// <paramref name="format0"/> or <paramref name="format1"/> is an invalid value.</exception>
-        public static bool TryParse(Type enumType, string value, bool ignoreCase, out object result, EnumFormat format0, EnumFormat format1)
+        public static bool TryParse(Type enumType, string? value, bool ignoreCase, out object? result, EnumFormat format0, EnumFormat format1)
         {
             var info = GetNonGenericEnumInfo(enumType);
 
-            if (string.IsNullOrEmpty(value) && info.IsNullable)
+            if (string.IsNullOrEmpty(value!) && info.IsNullable)
             {
                 result = null;
                 return true;
@@ -2292,11 +2292,11 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type
         /// -or-
         /// <paramref name="format0"/>, <paramref name="format1"/>, or <paramref name="format2"/> is an invalid value.</exception>
-        public static bool TryParse(Type enumType, string value, bool ignoreCase, out object result, EnumFormat format0, EnumFormat format1, EnumFormat format2)
+        public static bool TryParse(Type enumType, string? value, bool ignoreCase, out object? result, EnumFormat format0, EnumFormat format1, EnumFormat format2)
         {
             var info = GetNonGenericEnumInfo(enumType);
 
-            if (string.IsNullOrEmpty(value) && info.IsNullable)
+            if (string.IsNullOrEmpty(value!) && info.IsNullable)
             {
                 result = null;
                 return true;
@@ -2320,11 +2320,11 @@ namespace EnumsNET.NonGeneric
         /// <exception cref="ArgumentException"><paramref name="enumType"/> is not an enum type
         /// -or-
         /// <paramref name="formats"/> contains an invalid value.</exception>
-        public static bool TryParse(Type enumType, string value, bool ignoreCase, out object result, params EnumFormat[] formats)
+        public static bool TryParse(Type enumType, string? value, bool ignoreCase, out object? result, params EnumFormat[]? formats)
         {
             var info = GetNonGenericEnumInfo(enumType);
 
-            if (string.IsNullOrEmpty(value) && info.IsNullable)
+            if (string.IsNullOrEmpty(value!) && info.IsNullable)
             {
                 result = null;
                 return true;

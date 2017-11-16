@@ -634,7 +634,7 @@ namespace EnumsNET.Unsafe
         /// <param name="result">If the conversion succeeds this contains a <typeparamref name="TEnum"/> whose value is <paramref name="value"/>.</param>
         /// <returns>Indication whether the conversion succeeded.</returns>
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type.</exception>
-        public static bool TryToObject<TEnum>(object value, out TEnum result) => GetInfo<TEnum>().TryToObject(value, out result);
+        public static bool TryToObject<TEnum>(object? value, out TEnum result) => GetInfo<TEnum>().TryToObject(value, out result);
 
         /// <summary>
         /// Tries to convert the specified <paramref name="value"/> to a <typeparamref name="TEnum"/> while checking that it doesn't overflow the
@@ -650,7 +650,7 @@ namespace EnumsNET.Unsafe
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type
         /// -or-
         /// <paramref name="validation"/> is an invalid value.</exception>
-        public static bool TryToObject<TEnum>(object value, EnumValidation validation, out TEnum result) => GetInfo<TEnum>().TryToObject(value, out result, validation);
+        public static bool TryToObject<TEnum>(object? value, EnumValidation validation, out TEnum result) => GetInfo<TEnum>().TryToObject(value, out result, validation);
 
         /// <summary>
         /// Tries to converts the specified <paramref name="value"/> to a <typeparamref name="TEnum"/> while checking that it doesn't overflow the
@@ -666,7 +666,7 @@ namespace EnumsNET.Unsafe
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type.</exception>
         [Obsolete("Use EnumValidation overload instead")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static bool TryToObject<TEnum>(object value, bool validate, out TEnum result) => TryToObject(value, validate ? EnumValidation.Default : EnumValidation.None, out result);
+        public static bool TryToObject<TEnum>(object? value, bool validate, out TEnum result) => TryToObject(value, validate ? EnumValidation.Default : EnumValidation.None, out result);
 
         /// <summary>
         /// Tries to convert the specified <paramref name="value"/> to a <typeparamref name="TEnum"/> while checking that it doesn't overflow the
@@ -1089,7 +1089,7 @@ namespace EnumsNET.Unsafe
         /// <returns>A string representation of <paramref name="value"/>.</returns>
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type.</exception>
         /// <exception cref="FormatException"><paramref name="format"/> is an invalid value.</exception>
-        public static string AsString<TEnum>(TEnum value, string format) => GetInfo<TEnum>().AsString(value, format);
+        public static string AsString<TEnum>(TEnum value, string? format) => GetInfo<TEnum>().AsString(value, format);
 
         /// <summary>
         /// Converts the specified <paramref name="value"/> to its string representation using the specified <paramref name="format"/>.
@@ -1101,7 +1101,7 @@ namespace EnumsNET.Unsafe
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type
         /// -or-
         /// <paramref name="format"/> is an invalid value.</exception>
-        public static string AsString<TEnum>(TEnum value, EnumFormat format) => GetInfo<TEnum>().AsString(value, format);
+        public static string? AsString<TEnum>(TEnum value, EnumFormat format) => GetInfo<TEnum>().AsString(value, format);
 
         /// <summary>
         /// Converts the specified <paramref name="value"/> to its string representation using the specified formats.
@@ -1114,7 +1114,7 @@ namespace EnumsNET.Unsafe
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type
         /// -or-
         /// <paramref name="format0"/> or <paramref name="format1"/> is an invalid value.</exception>
-        public static string AsString<TEnum>(TEnum value, EnumFormat format0, EnumFormat format1) => GetInfo<TEnum>().AsString(value, new ValueCollection<EnumFormat>(format0, format1));
+        public static string? AsString<TEnum>(TEnum value, EnumFormat format0, EnumFormat format1) => GetInfo<TEnum>().AsString(value, new ValueCollection<EnumFormat>(format0, format1));
 
         /// <summary>
         /// Converts the specified <paramref name="value"/> to its string representation using the specified formats.
@@ -1128,7 +1128,7 @@ namespace EnumsNET.Unsafe
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type
         /// -or-
         /// <paramref name="format0"/>, <paramref name="format1"/>, or <paramref name="format2"/> is an invalid value.</exception>
-        public static string AsString<TEnum>(TEnum value, EnumFormat format0, EnumFormat format1, EnumFormat format2) => GetInfo<TEnum>().AsString(value, new ValueCollection<EnumFormat>(format0, format1, format2));
+        public static string? AsString<TEnum>(TEnum value, EnumFormat format0, EnumFormat format1, EnumFormat format2) => GetInfo<TEnum>().AsString(value, new ValueCollection<EnumFormat>(format0, format1, format2));
 
         /// <summary>
         /// Converts the specified <paramref name="value"/> to its string representation using the specified <paramref name="formats"/>.
@@ -1140,7 +1140,7 @@ namespace EnumsNET.Unsafe
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type
         /// -or-
         /// <paramref name="formats"/> contains an invalid value.</exception>
-        public static string AsString<TEnum>(TEnum value, params EnumFormat[] formats) => GetInfo<TEnum>().AsString(value, new ValueCollection<EnumFormat>(formats));
+        public static string? AsString<TEnum>(TEnum value, params EnumFormat[]? formats) => GetInfo<TEnum>().AsString(value, new ValueCollection<EnumFormat>(formats));
 
         /// <summary>
         /// Converts the specified <paramref name="value"/> to its string representation using the specified <paramref name="format"/>.
@@ -1165,7 +1165,7 @@ namespace EnumsNET.Unsafe
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type
         /// -or-
         /// <paramref name="formats"/> contains an invalid value.</exception>
-        public static string Format<TEnum>(TEnum value, params EnumFormat[] formats)
+        public static string? Format<TEnum>(TEnum value, params EnumFormat[] formats)
         {
             Preconditions.NotNull(formats, nameof(formats));
 
@@ -1304,7 +1304,7 @@ namespace EnumsNET.Unsafe
         /// <param name="value">The enum value.</param>
         /// <returns><paramref name="value"/>'s enum member name if defined otherwise <c>null</c>.</returns>
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type.</exception>
-        public static string GetName<TEnum>(TEnum value) => GetInfo<TEnum>().GetName(value);
+        public static string? GetName<TEnum>(TEnum value) => GetInfo<TEnum>().GetName(value);
 
         /// <summary>
         /// Retrieves <paramref name="value"/>'s enum member attributes if defined otherwise <c>null</c>.
@@ -1313,7 +1313,7 @@ namespace EnumsNET.Unsafe
         /// <param name="value">The enum value.</param>
         /// <returns><paramref name="value"/>'s enum member attributes if defined otherwise <c>null</c>.</returns>
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type.</exception>
-        public static AttributeCollection GetAttributes<TEnum>(TEnum value) => GetInfo<TEnum>().GetAttributes(value);
+        public static AttributeCollection? GetAttributes<TEnum>(TEnum value) => GetInfo<TEnum>().GetAttributes(value);
 
         /// <summary>
         /// Retrieves an enum member with the specified <paramref name="value"/> if defined otherwise <c>null</c>.
@@ -1322,7 +1322,7 @@ namespace EnumsNET.Unsafe
         /// <param name="value">The enum value.</param>
         /// <returns>Enum member with the specified <paramref name="value"/> if defined otherwise <c>null</c>.</returns>
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type.</exception>
-        public static EnumMember<TEnum> GetMember<TEnum>(TEnum value) => GetInfo<TEnum>().GetMember(value);
+        public static EnumMember<TEnum>? GetMember<TEnum>(TEnum value) => GetInfo<TEnum>().GetMember(value);
 
         /// <summary>
         /// Retrieves the enum member with the specified <paramref name="name"/> if defined otherwise <c>null</c>.
@@ -1333,7 +1333,7 @@ namespace EnumsNET.Unsafe
         /// <returns>Enum member with the specified <paramref name="name"/> if defined otherwise <c>null</c>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type.</exception>
-        public static EnumMember<TEnum> GetMember<TEnum>(string name) => GetInfo<TEnum>().GetMember(name);
+        public static EnumMember<TEnum>? GetMember<TEnum>(string name) => GetInfo<TEnum>().GetMember(name);
 
         /// <summary>
         /// Retrieves the enum member with the specified <paramref name="name"/> if defined otherwise <c>null</c>.
@@ -1345,7 +1345,7 @@ namespace EnumsNET.Unsafe
         /// <returns>Enum member with the specified <paramref name="name"/> if defined otherwise <c>null</c>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type.</exception>
-        public static EnumMember<TEnum> GetMember<TEnum>(string name, bool ignoreCase) => GetInfo<TEnum>().GetMember(name, ignoreCase);
+        public static EnumMember<TEnum>? GetMember<TEnum>(string name, bool ignoreCase) => GetInfo<TEnum>().GetMember(name, ignoreCase);
 
         /// <summary>
         /// Retrieves an enum member whose string representation using the specified <paramref name="format"/> is <paramref name="value"/> if defined otherwise <c>null</c>.
@@ -1358,7 +1358,7 @@ namespace EnumsNET.Unsafe
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type
         /// -or-
         /// <paramref name="format"/> is an invalid value.</exception>
-        public static EnumMember<TEnum> GetMember<TEnum>(string value, EnumFormat format) => GetMember<TEnum>(value, false, format);
+        public static EnumMember<TEnum>? GetMember<TEnum>(string value, EnumFormat format) => GetMember<TEnum>(value, false, format);
 
         /// <summary>
         /// Retrieves an enum member whose string representation using the specified formats is <paramref name="value"/> if defined otherwise <c>null</c>.
@@ -1372,7 +1372,7 @@ namespace EnumsNET.Unsafe
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type
         /// -or-
         /// <paramref name="format0"/> or <paramref name="format1"/> is an invalid value.</exception>
-        public static EnumMember<TEnum> GetMember<TEnum>(string value, EnumFormat format0, EnumFormat format1) => GetMember<TEnum>(value, false, format0, format1);
+        public static EnumMember<TEnum>? GetMember<TEnum>(string value, EnumFormat format0, EnumFormat format1) => GetMember<TEnum>(value, false, format0, format1);
 
         /// <summary>
         /// Retrieves an enum member whose string representation using the specified formats is <paramref name="value"/> if defined otherwise <c>null</c>.
@@ -1387,7 +1387,7 @@ namespace EnumsNET.Unsafe
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type
         /// -or-
         /// <paramref name="format0"/>, <paramref name="format1"/>, or <paramref name="format2"/> is an invalid value.</exception>
-        public static EnumMember<TEnum> GetMember<TEnum>(string value, EnumFormat format0, EnumFormat format1, EnumFormat format2) => GetMember<TEnum>(value, false, format0, format1, format2);
+        public static EnumMember<TEnum>? GetMember<TEnum>(string value, EnumFormat format0, EnumFormat format1, EnumFormat format2) => GetMember<TEnum>(value, false, format0, format1, format2);
 
         /// <summary>
         /// Retrieves an enum member whose string representation using the specified <paramref name="formats"/> is <paramref name="value"/> if defined otherwise <c>null</c>.
@@ -1400,7 +1400,7 @@ namespace EnumsNET.Unsafe
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type
         /// -or-
         /// <paramref name="formats"/> contains an invalid value.</exception>
-        public static EnumMember<TEnum> GetMember<TEnum>(string value, params EnumFormat[] formats) => GetMember<TEnum>(value, false, formats);
+        public static EnumMember<TEnum>? GetMember<TEnum>(string value, params EnumFormat[]? formats) => GetMember<TEnum>(value, false, formats);
 
         /// <summary>
         /// Retrieves an enum member whose string representation using the specified <paramref name="format"/> is <paramref name="value"/> if defined otherwise <c>null</c>.
@@ -1415,7 +1415,7 @@ namespace EnumsNET.Unsafe
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type
         /// -or-
         /// <paramref name="format"/> is an invalid value.</exception>
-        public static EnumMember<TEnum> GetMember<TEnum>(string value, bool ignoreCase, EnumFormat format) => GetInfo<TEnum>().GetMember(value, ignoreCase, new ValueCollection<EnumFormat>(format));
+        public static EnumMember<TEnum>? GetMember<TEnum>(string value, bool ignoreCase, EnumFormat format) => GetInfo<TEnum>().GetMember(value, ignoreCase, new ValueCollection<EnumFormat>(format));
 
         /// <summary>
         /// Retrieves an enum member whose string representation using the specified formats is <paramref name="value"/> if defined otherwise <c>null</c>.
@@ -1431,7 +1431,7 @@ namespace EnumsNET.Unsafe
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type
         /// -or-
         /// <paramref name="format0"/> or <paramref name="format1"/> is an invalid value.</exception>
-        public static EnumMember<TEnum> GetMember<TEnum>(string value, bool ignoreCase, EnumFormat format0, EnumFormat format1) => GetInfo<TEnum>().GetMember(value, ignoreCase, new ValueCollection<EnumFormat>(format0, format1));
+        public static EnumMember<TEnum>? GetMember<TEnum>(string value, bool ignoreCase, EnumFormat format0, EnumFormat format1) => GetInfo<TEnum>().GetMember(value, ignoreCase, new ValueCollection<EnumFormat>(format0, format1));
 
         /// <summary>
         /// Retrieves an enum member whose string representation using the specified formats is <paramref name="value"/> if defined otherwise <c>null</c>.
@@ -1448,7 +1448,7 @@ namespace EnumsNET.Unsafe
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type
         /// -or-
         /// <paramref name="format0"/>, <paramref name="format1"/>, or <paramref name="format2"/> is an invalid value.</exception>
-        public static EnumMember<TEnum> GetMember<TEnum>(string value, bool ignoreCase, EnumFormat format0, EnumFormat format1, EnumFormat format2) => GetInfo<TEnum>().GetMember(value, ignoreCase, new ValueCollection<EnumFormat>(format0, format1, format2));
+        public static EnumMember<TEnum>? GetMember<TEnum>(string value, bool ignoreCase, EnumFormat format0, EnumFormat format1, EnumFormat format2) => GetInfo<TEnum>().GetMember(value, ignoreCase, new ValueCollection<EnumFormat>(format0, format1, format2));
 
         /// <summary>
         /// Retrieves an enum member whose string representation using the specified <paramref name="formats"/> is <paramref name="value"/> if defined otherwise <c>null</c>.
@@ -1463,7 +1463,7 @@ namespace EnumsNET.Unsafe
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type
         /// -or-
         /// <paramref name="formats"/> contains an invalid value.</exception>
-        public static EnumMember<TEnum> GetMember<TEnum>(string value, bool ignoreCase, params EnumFormat[] formats) => GetInfo<TEnum>().GetMember(value, ignoreCase, new ValueCollection<EnumFormat>(formats));
+        public static EnumMember<TEnum>? GetMember<TEnum>(string value, bool ignoreCase, params EnumFormat[]? formats) => GetInfo<TEnum>().GetMember(value, ignoreCase, new ValueCollection<EnumFormat>(formats));
 
         /// <summary>
         /// Retrieves an enum member with the specified <paramref name="value"/> if defined otherwise <c>null</c>.
@@ -1474,7 +1474,7 @@ namespace EnumsNET.Unsafe
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type.</exception>
         [Obsolete("Renamed to GetMember. This method will be removed in a future version.")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static EnumMember<TEnum> GetEnumMember<TEnum>(TEnum value) => GetMember(value);
+        public static EnumMember<TEnum>? GetEnumMember<TEnum>(TEnum value) => GetMember(value);
 
         /// <summary>
         /// Retrieves the enum member with the specified <paramref name="name"/> if defined otherwise <c>null</c>.
@@ -1487,7 +1487,7 @@ namespace EnumsNET.Unsafe
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type.</exception>
         [Obsolete("Renamed to GetMember. This method will be removed in a future version.")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static EnumMember<TEnum> GetEnumMember<TEnum>(string name) => GetMember<TEnum>(name);
+        public static EnumMember<TEnum>? GetEnumMember<TEnum>(string name) => GetMember<TEnum>(name);
 
         /// <summary>
         /// Retrieves the enum member with the specified <paramref name="name"/> if defined otherwise <c>null</c>.
@@ -1501,7 +1501,7 @@ namespace EnumsNET.Unsafe
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type.</exception>
         [Obsolete("Renamed to GetMember. This method will be removed in a future version.")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static EnumMember<TEnum> GetEnumMember<TEnum>(string name, bool ignoreCase) => GetMember<TEnum>(name, ignoreCase);
+        public static EnumMember<TEnum>? GetEnumMember<TEnum>(string name, bool ignoreCase) => GetMember<TEnum>(name, ignoreCase);
 
         /// <summary>
         /// Retrieves an enum member whose string representation using the specified <paramref name="formats"/> is <paramref name="value"/> if defined otherwise <c>null</c>.
@@ -1516,7 +1516,7 @@ namespace EnumsNET.Unsafe
         /// <paramref name="formats"/> contains an invalid value.</exception>
         [Obsolete("Renamed to GetMember. This method will be removed in a future version.")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static EnumMember<TEnum> GetEnumMember<TEnum>(string value, params EnumFormat[] formats) => GetMember<TEnum>(value, formats);
+        public static EnumMember<TEnum>? GetEnumMember<TEnum>(string value, params EnumFormat[]? formats) => GetMember<TEnum>(value, formats);
 
         /// <summary>
         /// Retrieves an enum member whose string representation using the specified <paramref name="formats"/> is <paramref name="value"/> if defined otherwise <c>null</c>.
@@ -1533,7 +1533,7 @@ namespace EnumsNET.Unsafe
         /// <paramref name="formats"/> contains an invalid value.</exception>
         [Obsolete("Renamed to GetMember. This method will be removed in a future version.")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static EnumMember<TEnum> GetEnumMember<TEnum>(string value, bool ignoreCase, params EnumFormat[] formats) => GetMember<TEnum>(value, ignoreCase, formats);
+        public static EnumMember<TEnum>? GetEnumMember<TEnum>(string value, bool ignoreCase, params EnumFormat[]? formats) => GetMember<TEnum>(value, ignoreCase, formats);
         #endregion
 
         #region Parsing
@@ -1619,7 +1619,7 @@ namespace EnumsNET.Unsafe
         /// -or-
         /// <paramref name="formats"/> contains an invalid value.</exception>
         /// <exception cref="OverflowException"><paramref name="value"/> is outside the range of the underlying type of <typeparamref name="TEnum"/>.</exception>
-        public static TEnum Parse<TEnum>(string value, params EnumFormat[] formats) => Parse<TEnum>(value, false, formats);
+        public static TEnum Parse<TEnum>(string value, params EnumFormat[]? formats) => Parse<TEnum>(value, false, formats);
 
         /// <summary>
         /// Converts the string representation of one or more member names or values of <typeparamref name="TEnum"/> to its respective <typeparamref name="TEnum"/> value.
@@ -1709,7 +1709,7 @@ namespace EnumsNET.Unsafe
         /// -or-
         /// <paramref name="formats"/> contains an invalid value.</exception>
         /// <exception cref="OverflowException"><paramref name="value"/> is outside the range of the underlying type of <typeparamref name="TEnum"/>.</exception>
-        public static TEnum Parse<TEnum>(string value, bool ignoreCase, params EnumFormat[] formats) => GetInfo<TEnum>().Parse(value, ignoreCase, new ValueCollection<EnumFormat>(formats));
+        public static TEnum Parse<TEnum>(string value, bool ignoreCase, params EnumFormat[]? formats) => GetInfo<TEnum>().Parse(value, ignoreCase, new ValueCollection<EnumFormat>(formats));
 
         /// <summary>
         /// Tries to convert the string representation of one or more member names or values of <typeparamref name="TEnum"/> to its respective <typeparamref name="TEnum"/> value.
@@ -1720,7 +1720,7 @@ namespace EnumsNET.Unsafe
         /// <param name="result">If the conversion succeeds this contains a <typeparamref name="TEnum"/> value that is represented by <paramref name="value"/>.</param>
         /// <returns>Indication whether the conversion succeeded.</returns>
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type.</exception>
-        public static bool TryParse<TEnum>(string value, out TEnum result) => GetInfo<TEnum>().TryParse(value, false, out result);
+        public static bool TryParse<TEnum>(string? value, out TEnum result) => GetInfo<TEnum>().TryParse(value, false, out result);
 
         /// <summary>
         /// Tries to convert the string representation of one or more members or values of <typeparamref name="TEnum"/> to its respective <typeparamref name="TEnum"/> value
@@ -1735,7 +1735,7 @@ namespace EnumsNET.Unsafe
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type
         /// -or-
         /// <paramref name="format"/> is an invalid value.</exception>
-        public static bool TryParse<TEnum>(string value, out TEnum result, EnumFormat format) => TryParse(value, false, out result, format);
+        public static bool TryParse<TEnum>(string? value, out TEnum result, EnumFormat format) => TryParse(value, false, out result, format);
 
         /// <summary>
         /// Tries to convert the string representation of one or more members or values of <typeparamref name="TEnum"/> to its respective <typeparamref name="TEnum"/> value
@@ -1751,7 +1751,7 @@ namespace EnumsNET.Unsafe
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type
         /// -or-
         /// <paramref name="format0"/> or <paramref name="format1"/> is an invalid value.</exception>
-        public static bool TryParse<TEnum>(string value, out TEnum result, EnumFormat format0, EnumFormat format1) => TryParse(value, false, out result, format0, format1);
+        public static bool TryParse<TEnum>(string? value, out TEnum result, EnumFormat format0, EnumFormat format1) => TryParse(value, false, out result, format0, format1);
 
         /// <summary>
         /// Tries to convert the string representation of one or more members or values of <typeparamref name="TEnum"/> to its respective <typeparamref name="TEnum"/> value
@@ -1768,7 +1768,7 @@ namespace EnumsNET.Unsafe
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type
         /// -or-
         /// <paramref name="format0"/>, <paramref name="format1"/>, <paramref name="format2"/> is an invalid value.</exception>
-        public static bool TryParse<TEnum>(string value, out TEnum result, EnumFormat format0, EnumFormat format1, EnumFormat format2) => TryParse(value, false, out result, format0, format1, format2);
+        public static bool TryParse<TEnum>(string? value, out TEnum result, EnumFormat format0, EnumFormat format1, EnumFormat format2) => TryParse(value, false, out result, format0, format1, format2);
 
         /// <summary>
         /// Tries to convert the string representation of one or more members or values of <typeparamref name="TEnum"/> to its respective <typeparamref name="TEnum"/> value
@@ -1782,7 +1782,7 @@ namespace EnumsNET.Unsafe
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type
         /// -or-
         /// <paramref name="formats"/> contains an invalid value.</exception>
-        public static bool TryParse<TEnum>(string value, out TEnum result, params EnumFormat[] formats) => TryParse(value, false, out result, formats);
+        public static bool TryParse<TEnum>(string? value, out TEnum result, params EnumFormat[]? formats) => TryParse(value, false, out result, formats);
 
         /// <summary>
         /// Tries to convert the string representation of one or more member names or values of <typeparamref name="TEnum"/> to its respective <typeparamref name="TEnum"/> value.
@@ -1794,7 +1794,7 @@ namespace EnumsNET.Unsafe
         /// <param name="result">If the conversion succeeds this contains a <typeparamref name="TEnum"/> value that is represented by <paramref name="value"/>.</param>
         /// <returns>Indication whether the conversion succeeded.</returns>
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type.</exception>
-        public static bool TryParse<TEnum>(string value, bool ignoreCase, out TEnum result) => GetInfo<TEnum>().TryParse(value, ignoreCase, out result);
+        public static bool TryParse<TEnum>(string? value, bool ignoreCase, out TEnum result) => GetInfo<TEnum>().TryParse(value, ignoreCase, out result);
 
         /// <summary>
         /// Tries to convert the string representation of one or more members or values of <typeparamref name="TEnum"/> to its respective <typeparamref name="TEnum"/> value
@@ -1810,7 +1810,7 @@ namespace EnumsNET.Unsafe
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type
         /// -or-
         /// <paramref name="format"/> is an invalid value.</exception>
-        public static bool TryParse<TEnum>(string value, bool ignoreCase, out TEnum result, EnumFormat format) => GetInfo<TEnum>().TryParse(value, ignoreCase, out result, new ValueCollection<EnumFormat>(format));
+        public static bool TryParse<TEnum>(string? value, bool ignoreCase, out TEnum result, EnumFormat format) => GetInfo<TEnum>().TryParse(value, ignoreCase, out result, new ValueCollection<EnumFormat>(format));
 
         /// <summary>
         /// Tries to convert the string representation of one or more members or values of <typeparamref name="TEnum"/> to its respective <typeparamref name="TEnum"/> value
@@ -1827,7 +1827,7 @@ namespace EnumsNET.Unsafe
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type
         /// -or-
         /// <paramref name="format0"/> or <paramref name="format1"/> is an invalid value.</exception>
-        public static bool TryParse<TEnum>(string value, bool ignoreCase, out TEnum result, EnumFormat format0, EnumFormat format1) => GetInfo<TEnum>().TryParse(value, ignoreCase, out result, new ValueCollection<EnumFormat>(format0, format1));
+        public static bool TryParse<TEnum>(string? value, bool ignoreCase, out TEnum result, EnumFormat format0, EnumFormat format1) => GetInfo<TEnum>().TryParse(value, ignoreCase, out result, new ValueCollection<EnumFormat>(format0, format1));
 
         /// <summary>
         /// Tries to convert the string representation of one or more members or values of <typeparamref name="TEnum"/> to its respective <typeparamref name="TEnum"/> value
@@ -1845,7 +1845,7 @@ namespace EnumsNET.Unsafe
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type
         /// -or-
         /// <paramref name="format0"/>, <paramref name="format1"/>, <paramref name="format2"/> is an invalid value.</exception>
-        public static bool TryParse<TEnum>(string value, bool ignoreCase, out TEnum result, EnumFormat format0, EnumFormat format1, EnumFormat format2) => GetInfo<TEnum>().TryParse(value, ignoreCase, out result, new ValueCollection<EnumFormat>(format0, format1, format2));
+        public static bool TryParse<TEnum>(string? value, bool ignoreCase, out TEnum result, EnumFormat format0, EnumFormat format1, EnumFormat format2) => GetInfo<TEnum>().TryParse(value, ignoreCase, out result, new ValueCollection<EnumFormat>(format0, format1, format2));
 
         /// <summary>
         /// Tries to convert the string representation of one or more members or values of <typeparamref name="TEnum"/> to its respective <typeparamref name="TEnum"/> value
@@ -1861,7 +1861,7 @@ namespace EnumsNET.Unsafe
         /// <exception cref="ArgumentException"><typeparamref name="TEnum"/> is not an enum type
         /// -or-
         /// <paramref name="formats"/> contains an invalid value.</exception>
-        public static bool TryParse<TEnum>(string value, bool ignoreCase, out TEnum result, params EnumFormat[] formats) => GetInfo<TEnum>().TryParse(value, ignoreCase, out result, new ValueCollection<EnumFormat>(formats));
+        public static bool TryParse<TEnum>(string? value, bool ignoreCase, out TEnum result, params EnumFormat[]? formats) => GetInfo<TEnum>().TryParse(value, ignoreCase, out result, new ValueCollection<EnumFormat>(formats));
         #endregion
     }
 

@@ -47,24 +47,24 @@ namespace EnumsNET
         object AllFlags { get; }
 
         string AsString(object value);
-        string AsString(object value, string format);
-        string AsString(object value, EnumFormat format);
-        string AsString(object value, ValueCollection<EnumFormat> formats);
+        string AsString(object value, string? format);
+        string? AsString(object value, EnumFormat format);
+        string? AsString(object value, ValueCollection<EnumFormat> formats);
         object RemoveFlags(object value, object otherFlags);
         object CommonFlags(object value, object otherFlags);
         int CompareTo(object value, object other);
         bool Equals(object value, object other);
         string Format(object value, string format);
-        string FormatFlags(object value, string delimiter, ValueCollection<EnumFormat> formats);
-        AttributeCollection GetAttributes(object value);
-        EnumMember GetMember(object value);
-        EnumMember GetMember(string value, bool ignoreCase = false, ValueCollection<EnumFormat> formats = default);
+        string? FormatFlags(object value, string? delimiter, ValueCollection<EnumFormat> formats);
+        AttributeCollection? GetAttributes(object value);
+        EnumMember? GetMember(object value);
+        EnumMember? GetMember(string value, bool ignoreCase = false, ValueCollection<EnumFormat> formats = default);
         IEnumerable<EnumMember> GetMembers(EnumMemberSelection selection = EnumMemberSelection.All);
         IEnumerable<object> GetFlags(object value);
         int GetFlagCount(object value);
         int GetFlagCount(object value, object otherFlags);
         IEnumerable<EnumMember> GetFlagMembers(object value);
-        string GetName(object value);
+        string? GetName(object value);
         object GetUnderlyingValue(object value);
         IEnumerable<object> GetValues(EnumMemberSelection selection = EnumMemberSelection.All);
         bool HasAllFlags(object value);
@@ -75,8 +75,8 @@ namespace EnumsNET
         bool IsValid(object value, EnumValidation validation = EnumValidation.Default);
         bool IsValidFlagCombination(object value);
         object Parse(string value, bool ignoreCase, ValueCollection<EnumFormat> formats);
-        object ParseFlags(string value, bool ignoreCase, string delimiter, ValueCollection<EnumFormat> formats);
-        object CombineFlags(IEnumerable<object> flags);
+        object ParseFlags(string value, bool ignoreCase, string? delimiter, ValueCollection<EnumFormat> formats);
+        object CombineFlags(IEnumerable<object>? flags);
         object CombineFlags(object value, object otherFlags);
         byte ToByte(object value);
         object ToggleFlags(object value);
@@ -91,10 +91,10 @@ namespace EnumsNET
         ushort ToUInt16(object value);
         uint ToUInt32(object value);
         ulong ToUInt64(object value);
-        bool TryParse(string value, bool ignoreCase, out object result, ValueCollection<EnumFormat> formats);
-        bool TryParseFlags(string value, bool ignoreCase, string delimiter, out object result, ValueCollection<EnumFormat> formats);
+        bool TryParse(string? value, bool ignoreCase, out object result, ValueCollection<EnumFormat> formats);
+        bool TryParseFlags(string? value, bool ignoreCase, string? delimiter, out object result, ValueCollection<EnumFormat> formats);
         bool TryToObject(ulong value, out object result, EnumValidation validation = EnumValidation.None);
-        bool TryToObject(object value, out object result, EnumValidation validation = EnumValidation.None);
+        bool TryToObject(object? value, out object result, EnumValidation validation = EnumValidation.None);
         bool TryToObject(long value, out object result, EnumValidation validation = EnumValidation.None);
         object Validate(object value, string paramName, EnumValidation validation = EnumValidation.Default);
     }
@@ -104,25 +104,25 @@ namespace EnumsNET
         TEnum AllFlags { get; }
 
         string AsString(TEnum value);
-        string AsString(TEnum value, string format);
-        string AsString(TEnum value, EnumFormat format);
-        string AsString(TEnum value, ValueCollection<EnumFormat> formats);
+        string AsString(TEnum value, string? format);
+        string? AsString(TEnum value, EnumFormat format);
+        string? AsString(TEnum value, ValueCollection<EnumFormat> formats);
         TEnum RemoveFlags(TEnum value, TEnum otherFlags);
         TEnum CommonFlags(TEnum value, TEnum otherFlags);
         int CompareTo(TEnum value, TEnum other);
         bool Equals(TEnum value, TEnum other);
         string Format(TEnum value, string format);
-        string FormatFlags(TEnum value, string delimiter = null, ValueCollection<EnumFormat> formats = default);
-        AttributeCollection GetAttributes(TEnum value);
-        EnumMember<TEnum> GetMember(TEnum value);
-        EnumMember<TEnum> GetMember(string value, bool ignoreCase = false, ValueCollection<EnumFormat> formats = default);
+        string? FormatFlags(TEnum value, string? delimiter = null, ValueCollection<EnumFormat> formats = default);
+        AttributeCollection? GetAttributes(TEnum value);
+        EnumMember<TEnum>? GetMember(TEnum value);
+        EnumMember<TEnum>? GetMember(string value, bool ignoreCase = false, ValueCollection<EnumFormat> formats = default);
         IEnumerable<EnumMember<TEnum>> GetMembers(EnumMemberSelection selection = EnumMemberSelection.All);
         IEnumerable<TEnum> GetFlags(TEnum value);
         int GetFlagCount(TEnum value);
         int GetFlagCount(TEnum value, TEnum otherFlags);
         IEnumerable<EnumMember<TEnum>> GetFlagMembers(TEnum value);
         int GetHashCode(TEnum value);
-        string GetName(TEnum value);
+        string? GetName(TEnum value);
         object GetUnderlyingValue(TEnum value);
         IEnumerable<TEnum> GetValues(EnumMemberSelection selection = EnumMemberSelection.All);
         bool HasAllFlags(TEnum value);
@@ -133,8 +133,8 @@ namespace EnumsNET
         bool IsValid(TEnum value, EnumValidation validation = EnumValidation.Default);
         bool IsValidFlagCombination(TEnum value);
         TEnum Parse(string value, bool ignoreCase = false, ValueCollection<EnumFormat> formats = default);
-        TEnum ParseFlags(string value, bool ignoreCase = false, string delimiter = null, ValueCollection<EnumFormat> formats = default);
-        TEnum CombineFlags(IEnumerable<TEnum> flags);
+        TEnum ParseFlags(string value, bool ignoreCase = false, string? delimiter = null, ValueCollection<EnumFormat> formats = default);
+        TEnum CombineFlags(IEnumerable<TEnum>? flags);
         TEnum CombineFlags(TEnum value, TEnum otherFlags);
         TEnum CombineFlags(TEnum flag0, TEnum flag1, TEnum flag2);
         TEnum CombineFlags(TEnum flag0, TEnum flag1, TEnum flag2, TEnum flag3);
@@ -152,10 +152,10 @@ namespace EnumsNET
         ushort ToUInt16(TEnum value);
         uint ToUInt32(TEnum value);
         ulong ToUInt64(TEnum value);
-        bool TryParse(string value, bool ignoreCase, out TEnum result, ValueCollection<EnumFormat> formats = default);
-        bool TryParseFlags(string value, bool ignoreCase, string delimiter, out TEnum result, ValueCollection<EnumFormat> formats = default);
+        bool TryParse(string? value, bool ignoreCase, out TEnum result, ValueCollection<EnumFormat> formats = default);
+        bool TryParseFlags(string? value, bool ignoreCase, string? delimiter, out TEnum result, ValueCollection<EnumFormat> formats = default);
         bool TryToObject(ulong value, out TEnum result, EnumValidation validation = EnumValidation.None);
-        bool TryToObject(object value, out TEnum result, EnumValidation validation = EnumValidation.None);
+        bool TryToObject(object? value, out TEnum result, EnumValidation validation = EnumValidation.None);
         bool TryToObject(long value, out TEnum result, EnumValidation validation = EnumValidation.None);
         TEnum Validate(TEnum value, string paramName, EnumValidation validation = EnumValidation.Default);
     }

@@ -36,9 +36,9 @@ namespace EnumsNET
         AttributeCollection Attributes { get; }
 
         object GetUnderlyingValue();
-        string AsString(string format);
-        string AsString(EnumFormat format);
-        string AsString(ValueCollection<EnumFormat> formats);
+        string AsString(string? format);
+        string? AsString(EnumFormat format);
+        string? AsString(ValueCollection<EnumFormat> formats);
         string Format(string format);
         byte ToByte();
         short ToInt16();

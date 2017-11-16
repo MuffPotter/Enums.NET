@@ -7,7 +7,7 @@
         public T? Item1;
         public T? Item2;
         public T? Item3;
-        public T[] Items;
+        public T[]? Items;
 
         public ValueCollection(T item1, T? item2 = null, T? item3 = null)
         {
@@ -17,7 +17,7 @@
             Items = null;
         }
 
-        public ValueCollection(T[] items)
+        public ValueCollection(T[]? items)
         {
             Item1 = null;
             Item2 = null;
@@ -51,7 +51,7 @@
                     var items = _valueCollection.Items;
                     if (_index < items?.Length)
                     {
-                        Current = items[_index];
+                        Current = items![_index];
                         success = true;
                         ++_index;
                     }

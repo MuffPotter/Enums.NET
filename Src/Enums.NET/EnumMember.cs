@@ -76,7 +76,7 @@ namespace EnumsNET
         /// <param name="format">The output format to use.</param>
         /// <returns>A string representation of the enum member.</returns>
         /// <exception cref="FormatException"><paramref name="format"/> is an invalid value.</exception>
-        public string AsString(string format) => Member.AsString(format);
+        public string AsString(string? format) => Member.AsString(format);
 
         /// <summary>
         /// Converts the enum member to its string representation using the specified <paramref name="format"/>.
@@ -84,7 +84,7 @@ namespace EnumsNET
         /// <param name="format">The output format to use.</param>
         /// <returns>A string representation of the enum member.</returns>
         /// <exception cref="ArgumentException"><paramref name="format"/> is an invalid value.</exception>
-        public string AsString(EnumFormat format) => Member.AsString(format);
+        public string? AsString(EnumFormat format) => Member.AsString(format);
 
         /// <summary>
         /// Converts the enum member to its string representation using the specified formats.
@@ -93,7 +93,7 @@ namespace EnumsNET
         /// <param name="format1">The second output format to use if using the first resolves to <c>null</c>.</param>
         /// <returns>A string representation of the enum member.</returns>
         /// <exception cref="ArgumentException"><paramref name="format0"/> or <paramref name="format1"/> is an invalid value.</exception>
-        public string AsString(EnumFormat format0, EnumFormat format1) => Member.AsString(new ValueCollection<EnumFormat>(format0, format1));
+        public string? AsString(EnumFormat format0, EnumFormat format1) => Member.AsString(new ValueCollection<EnumFormat>(format0, format1));
 
         /// <summary>
         /// Converts the enum member to its string representation using the specified formats.
@@ -103,7 +103,7 @@ namespace EnumsNET
         /// <param name="format2">The third output format to use if using the first and second both resolve to <c>null</c>.</param>
         /// <returns>A string representation of the enum member.</returns>
         /// <exception cref="ArgumentException"><paramref name="format0"/>, <paramref name="format1"/>, or <paramref name="format2"/> is an invalid value.</exception>
-        public string AsString(EnumFormat format0, EnumFormat format1, EnumFormat format2) => Member.AsString(new ValueCollection<EnumFormat>(format0, format1, format2));
+        public string? AsString(EnumFormat format0, EnumFormat format1, EnumFormat format2) => Member.AsString(new ValueCollection<EnumFormat>(format0, format1, format2));
 
         /// <summary>
         /// Converts the enum member to its string representation using the specified <paramref name="formats"/>.
@@ -111,7 +111,7 @@ namespace EnumsNET
         /// <param name="formats">The output formats to use.</param>
         /// <returns>A string representation of the enum member.</returns>
         /// <exception cref="ArgumentException"><paramref name="formats"/> contains an invalid value.</exception>
-        public string AsString(params EnumFormat[] formats) => Member.AsString(new ValueCollection<EnumFormat>(formats));
+        public string? AsString(params EnumFormat[]? formats) => Member.AsString(new ValueCollection<EnumFormat>(formats));
 
         /// <summary>
         /// Converts the enum member to its string representation using the specified <paramref name="format"/>.
@@ -129,7 +129,7 @@ namespace EnumsNET
         /// <returns>A string representation of the enum member.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="formats"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException"><paramref name="formats"/> contains an invalid value.</exception>
-        public string Format(params EnumFormat[] formats)
+        public string? Format(params EnumFormat[] formats)
         {
             Preconditions.NotNull(formats, nameof(formats));
 
@@ -153,7 +153,7 @@ namespace EnumsNET
         /// <returns>The first <typeparamref name="TAttribute"/> in <see cref="Attributes"/> if defined otherwise <c>null</c>.</returns>
         [Obsolete("Use Attributes.Get instead")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public TAttribute GetAttribute<TAttribute>()
+        public TAttribute? GetAttribute<TAttribute>()
             where TAttribute : Attribute => Attributes.Get<TAttribute>();
 
         /// <summary>
@@ -238,19 +238,23 @@ namespace EnumsNET
         /// <returns>The hash code of <see cref="Value"/>.</returns>
         public sealed override int GetHashCode() => Member.GetHashCode();
 
+#pragma warning disable CS8614
         /// <summary>
         /// Indicates whether the specified <see cref="EnumMember"/> is equal to the current <see cref="EnumMember"/>.
         /// </summary>
         /// <param name="other">The other <see cref="EnumMember"/>.</param>
         /// <returns>Indication whether the specified <see cref="EnumMember"/> is equal to the current <see cref="EnumMember"/>.</returns>
-        public bool Equals(EnumMember other) => ReferenceEquals(this, other);
+        public bool Equals(EnumMember? other) => ReferenceEquals(this, other!);
+#pragma warning restore CS8614
 
+#pragma warning disable CS8610
         /// <summary>
         /// Indicates whether the specified <see cref="object"/> is equal to the current <see cref="object"/>.
         /// </summary>
         /// <param name="other">The other <see cref="object"/>.</param>
         /// <returns>Indication whether the specified <see cref="object"/> is equal to the current <see cref="object"/>.</returns>
-        public sealed override bool Equals(object other) => ReferenceEquals(this, other);
+        public sealed override bool Equals(object? other) => ReferenceEquals(this, other!);
+#pragma warning restore CS8610
 
         internal abstract object GetValue();
 
@@ -329,12 +333,14 @@ namespace EnumsNET
         {
         }
 
+#pragma warning disable CS8614
         /// <summary>
         /// Indicates whether the specified <see cref="EnumMember{TEnum}"/> is equal to the current <see cref="EnumMember{TEnum}"/>.
         /// </summary>
         /// <param name="other">The other <see cref="EnumMember{TEnum}"/>.</param>
         /// <returns>Indication whether the specified <see cref="EnumMember{TEnum}"/> is equal to the current <see cref="EnumMember{TEnum}"/>.</returns>
-        public bool Equals(EnumMember<TEnum> other) => ReferenceEquals(this, other);
+        public bool Equals(EnumMember<TEnum>? other) => ReferenceEquals(this, other!);
+#pragma warning restore CS8614
 
         internal abstract TEnum GetGenericValue();
 
@@ -380,11 +386,13 @@ namespace EnumsNET
         internal override IEnumerable<EnumMember<TEnum>> GetGenericFlagMembers() => Member.GetFlagMembers().Select(flag => (EnumMember<TEnum>)flag.EnumMember);
 
         #region Interface Implementation
-        public int CompareTo(object other) => CompareTo(other as EnumMember<TEnum>);
+#pragma warning disable CS8614
+        public int CompareTo(object? other) => CompareTo(other as EnumMember<TEnum>);
 
-        public int CompareTo(EnumMember other) => CompareTo(other as EnumMember<TEnum>);
+        public int CompareTo(EnumMember? other) => CompareTo(other as EnumMember<TEnum>);
 
-        public int CompareTo(EnumMember<TEnum> other) => other != null ? Member.CompareTo(((EnumMember<TEnum, TInt, TIntProvider>)other).Member) : 1;
+        public int CompareTo(EnumMember<TEnum>? other) => other != null ? Member.CompareTo(((EnumMember<TEnum, TInt, TIntProvider>)other).Member) : 1;
+#pragma warning restore CS8614
         #endregion
     }
 }

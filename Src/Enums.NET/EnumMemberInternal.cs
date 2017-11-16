@@ -40,7 +40,7 @@ namespace EnumsNET
         where TIntProvider : struct, INumericProvider<TInt>
     {
         private readonly EnumCache<TInt, TIntProvider> _enumCache;
-        private EnumMember _enumMember;
+        private EnumMember? _enumMember;
 
         public TInt Value { get; }
 
@@ -52,8 +52,8 @@ namespace EnumsNET
         {
             get
             {
-                EnumMember enumMember;
-                return _enumMember ?? Interlocked.CompareExchange(ref _enumMember, (enumMember = _enumCache.EnumInfo.CreateEnumMember(this)), null) ?? enumMember;
+                var enumMember = _enumMember;
+                return enumMember ?? Interlocked.CompareExchange(ref _enumMember, (enumMember = _enumCache.EnumInfo.CreateEnumMember(this)), null) ?? enumMember;
             }
         }
 
@@ -65,16 +65,16 @@ namespace EnumsNET
             _enumCache = enumCache;
         }
 
-        public string AsString(string format) => _enumCache.AsStringInternal(Value, this, format);
+        public string AsString(string? format) => _enumCache.AsStringInternal(Value, this, format);
 
-        public string AsString(EnumFormat format)
+        public string? AsString(EnumFormat format)
         {
             var isInitialized = true;
-            var member = this;
+            EnumMemberInternal<TInt, TIntProvider>? member = this;
             return _enumCache.FormatInternal(Value, ref isInitialized, ref member, format);
         }
 
-        public string AsString(ValueCollection<EnumFormat> formats) => _enumCache.FormatInternal(Value, this, formats);
+        public string? AsString(ValueCollection<EnumFormat> formats) => _enumCache.FormatInternal(Value, this, formats);
 
         public string Format(string format)
         {
@@ -84,21 +84,21 @@ namespace EnumsNET
         }
 
 #if ICONVERTIBLE
-        public sbyte ToSByte() => Value.ToSByte(null);
+        public sbyte ToSByte() => Value.ToSByte(null!);
 
-        public byte ToByte() => Value.ToByte(null);
+        public byte ToByte() => Value.ToByte(null!);
 
-        public short ToInt16() => Value.ToInt16(null);
+        public short ToInt16() => Value.ToInt16(null!);
 
-        public ushort ToUInt16() => Value.ToUInt16(null);
+        public ushort ToUInt16() => Value.ToUInt16(null!);
 
-        public int ToInt32() => Value.ToInt32(null);
+        public int ToInt32() => Value.ToInt32(null!);
 
-        public uint ToUInt32() => Value.ToUInt32(null);
+        public uint ToUInt32() => Value.ToUInt32(null!);
 
-        public long ToInt64() => Value.ToInt64(null);
+        public long ToInt64() => Value.ToInt64(null!);
 
-        public ulong ToUInt64() => Value.ToUInt64(null);
+        public ulong ToUInt64() => Value.ToUInt64(null!);
 #else
         public sbyte ToSByte() => EnumCache<TInt, TIntProvider>.Provider.ToSByte(Value);
 

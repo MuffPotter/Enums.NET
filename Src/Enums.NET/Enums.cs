@@ -52,7 +52,7 @@ namespace EnumsNET
 #endif
             + 1;
 
-        private static Func<EnumMember, string>[] s_customEnumMemberFormatters = new Func<EnumMember, string>[0];
+        private static Func<EnumMember, string?>[] s_customEnumMemberFormatters = new Func<EnumMember, string?>[0];
 
         /// <summary>
         /// Registers a custom <see cref="EnumFormat"/> with the specified <see cref="EnumMember"/> formatter.
@@ -60,16 +60,16 @@ namespace EnumsNET
         /// <param name="enumMemberFormatter">The <see cref="EnumMember"/> formatter.</param>
         /// <returns>A custom <see cref="EnumFormat"/> that is registered with the specified <see cref="EnumMember"/> formatter.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="enumMemberFormatter"/> is <c>null</c>.</exception>
-        public static EnumFormat RegisterCustomEnumFormat(Func<EnumMember, string> enumMemberFormatter)
+        public static EnumFormat RegisterCustomEnumFormat(Func<EnumMember, string?> enumMemberFormatter)
         {
             Preconditions.NotNull(enumMemberFormatter, nameof(enumMemberFormatter));
             
             var customEnumMemberFormatters = s_customEnumMemberFormatters;
-            Func<EnumMember, string>[] oldCustomEnumMemberFormatters;
+            Func<EnumMember, string?>[] oldCustomEnumMemberFormatters;
             do
             {
                 oldCustomEnumMemberFormatters = customEnumMemberFormatters;
-                customEnumMemberFormatters = new Func<EnumMember, string>[oldCustomEnumMemberFormatters.Length + 1];
+                customEnumMemberFormatters = new Func<EnumMember, string?>[oldCustomEnumMemberFormatters.Length + 1];
                 oldCustomEnumMemberFormatters.CopyTo(customEnumMemberFormatters, 0);
                 customEnumMemberFormatters[oldCustomEnumMemberFormatters.Length] = enumMemberFormatter;
             } while ((customEnumMemberFormatters = Interlocked.CompareExchange(ref s_customEnumMemberFormatters, customEnumMemberFormatters, oldCustomEnumMemberFormatters)) != oldCustomEnumMemberFormatters);
@@ -78,7 +78,7 @@ namespace EnumsNET
 
         internal static bool EnumFormatIsValid(EnumFormat format) => format >= EnumFormat.DecimalValue && format <= (EnumFormat)(s_customEnumMemberFormatters.Length - 1 + s_startingCustomEnumFormatValue);
 
-        internal static string CustomEnumMemberFormat(EnumMember member, EnumFormat format) => s_customEnumMemberFormatters[(int)format - s_startingCustomEnumFormatValue](member);
+        internal static string? CustomEnumMemberFormat(EnumMember member, EnumFormat format) => s_customEnumMemberFormatters[(int)format - s_startingCustomEnumFormatValue](member);
         #endregion
 
         #region Type Methods
@@ -647,7 +647,7 @@ namespace EnumsNET
         /// <see cref="int"/>, <see cref="uint"/>, <see cref="long"/>, <see cref="ulong"/>, <typeparamref name="TEnum"/>, <see cref="string"/>, or Nullable of one of these.</param>
         /// <param name="result">If the conversion succeeds this contains a <typeparamref name="TEnum"/> whose value is <paramref name="value"/>.</param>
         /// <returns>Indication whether the conversion succeeded.</returns>
-        public static bool TryToObject<[EnumConstraint] TEnum>(object value, out TEnum result)
+        public static bool TryToObject<[EnumConstraint] TEnum>(object? value, out TEnum result)
             where TEnum : struct => Enums<TEnum>.Info.TryToObject(value, out result);
 
         /// <summary>
@@ -662,7 +662,7 @@ namespace EnumsNET
         /// <param name="result">If the conversion succeeds this contains a <typeparamref name="TEnum"/> whose value is <paramref name="value"/>.</param>
         /// <returns>Indication whether the conversion succeeded.</returns>
         /// <exception cref="ArgumentException"><paramref name="validation"/> is an invalid value.</exception>
-        public static bool TryToObject<[EnumConstraint] TEnum>(object value, EnumValidation validation, out TEnum result)
+        public static bool TryToObject<[EnumConstraint] TEnum>(object? value, EnumValidation validation, out TEnum result)
             where TEnum : struct => Enums<TEnum>.Info.TryToObject(value, out result, validation);
 
         /// <summary>
@@ -678,7 +678,7 @@ namespace EnumsNET
         /// <returns>Indication whether the conversion succeeded.</returns>
         [Obsolete("Use EnumValidation overload instead")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static bool TryToObject<[EnumConstraint] TEnum>(object value, bool validate, out TEnum result)
+        public static bool TryToObject<[EnumConstraint] TEnum>(object? value, bool validate, out TEnum result)
             where TEnum : struct => TryToObject(value, validate ? EnumValidation.Default : EnumValidation.None, out result);
 
         /// <summary>
@@ -1090,7 +1090,7 @@ namespace EnumsNET
         /// <param name="format">The output format to use.</param>
         /// <returns>A string representation of <paramref name="value"/>.</returns>
         /// <exception cref="FormatException"><paramref name="format"/> is an invalid value.</exception>
-        public static string AsString<[EnumConstraint] TEnum>(this TEnum value, string format)
+        public static string AsString<[EnumConstraint] TEnum>(this TEnum value, string? format)
             where TEnum : struct => Enums<TEnum>.Info.AsString(value, format);
 
         /// <summary>
@@ -1101,7 +1101,7 @@ namespace EnumsNET
         /// <param name="format">The output format to use.</param>
         /// <returns>A string representation of <paramref name="value"/>.</returns>
         /// <exception cref="ArgumentException"><paramref name="format"/> is an invalid value.</exception>
-        public static string AsString<[EnumConstraint] TEnum>(this TEnum value, EnumFormat format)
+        public static string? AsString<[EnumConstraint] TEnum>(this TEnum value, EnumFormat format)
             where TEnum : struct => Enums<TEnum>.Info.AsString(value, format);
 
         /// <summary>
@@ -1113,7 +1113,7 @@ namespace EnumsNET
         /// <param name="format1">The second output format to use if using the first resolves to <c>null</c>.</param>
         /// <returns>A string representation of <paramref name="value"/>.</returns>
         /// <exception cref="ArgumentException"><paramref name="format0"/> or <paramref name="format1"/> is an invalid value.</exception>
-        public static string AsString<[EnumConstraint] TEnum>(this TEnum value, EnumFormat format0, EnumFormat format1)
+        public static string? AsString<[EnumConstraint] TEnum>(this TEnum value, EnumFormat format0, EnumFormat format1)
             where TEnum : struct => Enums<TEnum>.Info.AsString(value, new ValueCollection<EnumFormat>(format0, format1));
 
         /// <summary>
@@ -1126,7 +1126,7 @@ namespace EnumsNET
         /// <param name="format2">The third output format to use if using the first and second both resolve to <c>null</c>.</param>
         /// <returns>A string representation of <paramref name="value"/>.</returns>
         /// <exception cref="ArgumentException"><paramref name="format0"/>, <paramref name="format1"/>, or <paramref name="format2"/> is an invalid value.</exception>
-        public static string AsString<[EnumConstraint] TEnum>(this TEnum value, EnumFormat format0, EnumFormat format1, EnumFormat format2)
+        public static string? AsString<[EnumConstraint] TEnum>(this TEnum value, EnumFormat format0, EnumFormat format1, EnumFormat format2)
             where TEnum : struct => Enums<TEnum>.Info.AsString(value, new ValueCollection<EnumFormat>(format0, format1, format2));
 
         /// <summary>
@@ -1137,7 +1137,7 @@ namespace EnumsNET
         /// <param name="formats">The output formats to use.</param>
         /// <returns>A string representation of <paramref name="value"/>.</returns>
         /// <exception cref="ArgumentException"><paramref name="formats"/> contains an invalid value.</exception>
-        public static string AsString<[EnumConstraint] TEnum>(this TEnum value, params EnumFormat[] formats)
+        public static string? AsString<[EnumConstraint] TEnum>(this TEnum value, params EnumFormat[]? formats)
             where TEnum : struct => Enums<TEnum>.Info.AsString(value, new ValueCollection<EnumFormat>(formats));
 
         /// <summary>
@@ -1161,7 +1161,7 @@ namespace EnumsNET
         /// <returns>A string representation of <paramref name="value"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="formats"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException"><paramref name="formats"/> contains an invalid value.</exception>
-        public static string Format<[EnumConstraint] TEnum>(TEnum value, params EnumFormat[] formats)
+        public static string? Format<[EnumConstraint] TEnum>(TEnum value, params EnumFormat[] formats)
             where TEnum : struct
         {
             Preconditions.NotNull(formats, nameof(formats));
@@ -1300,7 +1300,7 @@ namespace EnumsNET
         /// <typeparam name="TEnum">The enum type.</typeparam>
         /// <param name="value">The enum value.</param>
         /// <returns><paramref name="value"/>'s enum member name if defined otherwise <c>null</c>.</returns>
-        public static string GetName<[EnumConstraint] TEnum>(this TEnum value)
+        public static string? GetName<[EnumConstraint] TEnum>(this TEnum value)
             where TEnum : struct => Enums<TEnum>.Info.GetName(value);
 
         /// <summary>
@@ -1309,7 +1309,7 @@ namespace EnumsNET
         /// <typeparam name="TEnum">The enum type.</typeparam>
         /// <param name="value">The enum value.</param>
         /// <returns><paramref name="value"/>'s enum member attributes if defined otherwise <c>null</c>.</returns>
-        public static AttributeCollection GetAttributes<[EnumConstraint] TEnum>(this TEnum value)
+        public static AttributeCollection? GetAttributes<[EnumConstraint] TEnum>(this TEnum value)
             where TEnum : struct => Enums<TEnum>.Info.GetAttributes(value);
 
         /// <summary>
@@ -1318,7 +1318,7 @@ namespace EnumsNET
         /// <typeparam name="TEnum">The enum type.</typeparam>
         /// <param name="value">The enum value.</param>
         /// <returns>Enum member with the specified <paramref name="value"/> if defined otherwise <c>null</c>.</returns>
-        public static EnumMember<TEnum> GetMember<[EnumConstraint] TEnum>(this TEnum value)
+        public static EnumMember<TEnum>? GetMember<[EnumConstraint] TEnum>(this TEnum value)
             where TEnum : struct => Enums<TEnum>.Info.GetMember(value);
 
         /// <summary>
@@ -1329,7 +1329,7 @@ namespace EnumsNET
         /// <param name="name">The enum member name.</param>
         /// <returns>Enum member with the specified <paramref name="name"/> if defined otherwise <c>null</c>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c>.</exception>
-        public static EnumMember<TEnum> GetMember<[EnumConstraint] TEnum>(string name)
+        public static EnumMember<TEnum>? GetMember<[EnumConstraint] TEnum>(string name)
             where TEnum : struct => Enums<TEnum>.Info.GetMember(name);
 
         /// <summary>
@@ -1341,7 +1341,7 @@ namespace EnumsNET
         /// <param name="ignoreCase">Indicates if the operation is case-insensitive.</param>
         /// <returns>Enum member with the specified <paramref name="name"/> if defined otherwise <c>null</c>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c>.</exception>
-        public static EnumMember<TEnum> GetMember<[EnumConstraint] TEnum>(string name, bool ignoreCase)
+        public static EnumMember<TEnum>? GetMember<[EnumConstraint] TEnum>(string name, bool ignoreCase)
             where TEnum : struct => Enums<TEnum>.Info.GetMember(name, ignoreCase);
 
         /// <summary>
@@ -1353,7 +1353,7 @@ namespace EnumsNET
         /// <returns>Enum member represented by <paramref name="value"/> if defined otherwise <c>null</c>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="value"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException"><paramref name="format"/> is an invalid value.</exception>
-        public static EnumMember<TEnum> GetMember<[EnumConstraint] TEnum>(string value, EnumFormat format)
+        public static EnumMember<TEnum>? GetMember<[EnumConstraint] TEnum>(string value, EnumFormat format)
             where TEnum : struct => Enums<TEnum>.Info.GetMember(value, false, new ValueCollection<EnumFormat>(format));
 
         /// <summary>
@@ -1366,7 +1366,7 @@ namespace EnumsNET
         /// <returns>Enum member represented by <paramref name="value"/> if defined otherwise <c>null</c>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="value"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException"><paramref name="format0"/> or <paramref name="format1"/> is an invalid value.</exception>
-        public static EnumMember<TEnum> GetMember<[EnumConstraint] TEnum>(string value, EnumFormat format0, EnumFormat format1)
+        public static EnumMember<TEnum>? GetMember<[EnumConstraint] TEnum>(string value, EnumFormat format0, EnumFormat format1)
             where TEnum : struct => Enums<TEnum>.Info.GetMember(value, false, new ValueCollection<EnumFormat>(format0, format1));
 
         /// <summary>
@@ -1380,7 +1380,7 @@ namespace EnumsNET
         /// <returns>Enum member represented by <paramref name="value"/> if defined otherwise <c>null</c>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="value"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException"><paramref name="format0"/>, <paramref name="format1"/>, or <paramref name="format2"/> is an invalid value.</exception>
-        public static EnumMember<TEnum> GetMember<[EnumConstraint] TEnum>(string value, EnumFormat format0, EnumFormat format1, EnumFormat format2)
+        public static EnumMember<TEnum>? GetMember<[EnumConstraint] TEnum>(string value, EnumFormat format0, EnumFormat format1, EnumFormat format2)
             where TEnum : struct => Enums<TEnum>.Info.GetMember(value, false, new ValueCollection<EnumFormat>(format0, format1, format2));
 
         /// <summary>
@@ -1392,7 +1392,7 @@ namespace EnumsNET
         /// <returns>Enum member represented by <paramref name="value"/> if defined otherwise <c>null</c>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="value"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException"><paramref name="formats"/> contains an invalid value.</exception>
-        public static EnumMember<TEnum> GetMember<[EnumConstraint] TEnum>(string value, params EnumFormat[] formats)
+        public static EnumMember<TEnum>? GetMember<[EnumConstraint] TEnum>(string value, params EnumFormat[]? formats)
             where TEnum : struct => Enums<TEnum>.Info.GetMember(value, false, new ValueCollection<EnumFormat>(formats));
 
         /// <summary>
@@ -1406,7 +1406,7 @@ namespace EnumsNET
         /// <returns>Enum member represented by <paramref name="value"/> if defined otherwise <c>null</c>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="value"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException"><paramref name="format"/> is an invalid value.</exception>
-        public static EnumMember<TEnum> GetMember<[EnumConstraint] TEnum>(string value, bool ignoreCase, EnumFormat format)
+        public static EnumMember<TEnum>? GetMember<[EnumConstraint] TEnum>(string value, bool ignoreCase, EnumFormat format)
             where TEnum : struct => Enums<TEnum>.Info.GetMember(value, ignoreCase, new ValueCollection<EnumFormat>(format));
 
         /// <summary>
@@ -1421,7 +1421,7 @@ namespace EnumsNET
         /// <returns>Enum member represented by <paramref name="value"/> if defined otherwise <c>null</c>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="value"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException"><paramref name="format0"/> or <paramref name="format1"/> is an invalid value.</exception>
-        public static EnumMember<TEnum> GetMember<[EnumConstraint] TEnum>(string value, bool ignoreCase, EnumFormat format0, EnumFormat format1)
+        public static EnumMember<TEnum>? GetMember<[EnumConstraint] TEnum>(string value, bool ignoreCase, EnumFormat format0, EnumFormat format1)
             where TEnum : struct => Enums<TEnum>.Info.GetMember(value, ignoreCase, new ValueCollection<EnumFormat>(format0, format1));
 
         /// <summary>
@@ -1437,7 +1437,7 @@ namespace EnumsNET
         /// <returns>Enum member represented by <paramref name="value"/> if defined otherwise <c>null</c>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="value"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException"><paramref name="format0"/>, <paramref name="format1"/>, or <paramref name="format2"/> is an invalid value.</exception>
-        public static EnumMember<TEnum> GetMember<[EnumConstraint] TEnum>(string value, bool ignoreCase, EnumFormat format0, EnumFormat format1, EnumFormat format2)
+        public static EnumMember<TEnum>? GetMember<[EnumConstraint] TEnum>(string value, bool ignoreCase, EnumFormat format0, EnumFormat format1, EnumFormat format2)
             where TEnum : struct => Enums<TEnum>.Info.GetMember(value, ignoreCase, new ValueCollection<EnumFormat>(format0, format1, format2));
 
         /// <summary>
@@ -1451,7 +1451,7 @@ namespace EnumsNET
         /// <returns>Enum member represented by <paramref name="value"/> if defined otherwise <c>null</c>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="value"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException"><paramref name="formats"/> contains an invalid value.</exception>
-        public static EnumMember<TEnum> GetMember<[EnumConstraint] TEnum>(string value, bool ignoreCase, params EnumFormat[] formats)
+        public static EnumMember<TEnum>? GetMember<[EnumConstraint] TEnum>(string value, bool ignoreCase, params EnumFormat[]? formats)
             where TEnum : struct => Enums<TEnum>.Info.GetMember(value, ignoreCase, new ValueCollection<EnumFormat>(formats));
 
         /// <summary>
@@ -1462,7 +1462,7 @@ namespace EnumsNET
         /// <returns>Enum member with the specified <paramref name="value"/> if defined otherwise <c>null</c>.</returns>
         [Obsolete("Renamed to GetMember. This method will be removed in a future version.")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static EnumMember<TEnum> GetEnumMember<[EnumConstraint] TEnum>(this TEnum value)
+        public static EnumMember<TEnum>? GetEnumMember<[EnumConstraint] TEnum>(this TEnum value)
             where TEnum : struct => GetMember(value);
 
         /// <summary>
@@ -1475,7 +1475,7 @@ namespace EnumsNET
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c>.</exception>
         [Obsolete("Renamed to GetMember. This method will be removed in a future version.")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static EnumMember<TEnum> GetEnumMember<[EnumConstraint] TEnum>(string name)
+        public static EnumMember<TEnum>? GetEnumMember<[EnumConstraint] TEnum>(string name)
             where TEnum : struct => GetMember<TEnum>(name);
 
         /// <summary>
@@ -1489,7 +1489,7 @@ namespace EnumsNET
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c>.</exception>
         [Obsolete("Renamed to GetMember. This method will be removed in a future version.")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static EnumMember<TEnum> GetEnumMember<[EnumConstraint] TEnum>(string name, bool ignoreCase)
+        public static EnumMember<TEnum>? GetEnumMember<[EnumConstraint] TEnum>(string name, bool ignoreCase)
             where TEnum : struct => GetMember<TEnum>(name, ignoreCase);
 
         /// <summary>
@@ -1503,7 +1503,7 @@ namespace EnumsNET
         /// <exception cref="ArgumentException"><paramref name="formats"/> contains an invalid value.</exception>
         [Obsolete("Renamed to GetMember. This method will be removed in a future version.")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static EnumMember<TEnum> GetEnumMember<[EnumConstraint] TEnum>(string value, params EnumFormat[] formats)
+        public static EnumMember<TEnum>? GetEnumMember<[EnumConstraint] TEnum>(string value, params EnumFormat[]? formats)
             where TEnum : struct => GetMember<TEnum>(value, formats);
 
         /// <summary>
@@ -1519,7 +1519,7 @@ namespace EnumsNET
         /// <exception cref="ArgumentException"><paramref name="formats"/> contains an invalid value.</exception>
         [Obsolete("Renamed to GetMember. This method will be removed in a future version.")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static EnumMember<TEnum> GetEnumMember<[EnumConstraint] TEnum>(string value, bool ignoreCase, params EnumFormat[] formats)
+        public static EnumMember<TEnum>? GetEnumMember<[EnumConstraint] TEnum>(string value, bool ignoreCase, params EnumFormat[]? formats)
             where TEnum : struct => GetMember<TEnum>(value, ignoreCase, formats);
         #endregion
 
@@ -1600,7 +1600,7 @@ namespace EnumsNET
         /// -or-
         /// <paramref name="formats"/> contains an invalid value.</exception>
         /// <exception cref="OverflowException"><paramref name="value"/> is outside the range of the underlying type of <typeparamref name="TEnum"/>.</exception>
-        public static TEnum Parse<[EnumConstraint] TEnum>(string value, params EnumFormat[] formats)
+        public static TEnum Parse<[EnumConstraint] TEnum>(string value, params EnumFormat[]? formats)
             where TEnum : struct => Parse<TEnum>(value, false, formats);
 
         /// <summary>
@@ -1685,7 +1685,7 @@ namespace EnumsNET
         /// -or-
         /// <paramref name="formats"/> contains an invalid value.</exception>
         /// <exception cref="OverflowException"><paramref name="value"/> is outside the range of the underlying type of <typeparamref name="TEnum"/>.</exception>
-        public static TEnum Parse<[EnumConstraint] TEnum>(string value, bool ignoreCase, params EnumFormat[] formats)
+        public static TEnum Parse<[EnumConstraint] TEnum>(string value, bool ignoreCase, params EnumFormat[]? formats)
             where TEnum : struct => Enums<TEnum>.Info.Parse(value, ignoreCase, new ValueCollection<EnumFormat>(formats));
 
         /// <summary>
@@ -1696,7 +1696,7 @@ namespace EnumsNET
         /// <param name="value">The enum member names or values' string representation.</param>
         /// <param name="result">If the conversion succeeds this contains a <typeparamref name="TEnum"/> value that is represented by <paramref name="value"/>.</param>
         /// <returns>Indication whether the conversion succeeded.</returns>
-        public static bool TryParse<[EnumConstraint] TEnum>(string value, out TEnum result)
+        public static bool TryParse<[EnumConstraint] TEnum>(string? value, out TEnum result)
             where TEnum : struct => TryParse(value, false, out result);
 
         /// <summary>
@@ -1710,7 +1710,7 @@ namespace EnumsNET
         /// <param name="format">The parsing enum format.</param>
         /// <returns>Indication whether the conversion succeeded.</returns>
         /// <exception cref="ArgumentException"><paramref name="format"/> is an invalid value.</exception>
-        public static bool TryParse<[EnumConstraint] TEnum>(string value, out TEnum result, EnumFormat format)
+        public static bool TryParse<[EnumConstraint] TEnum>(string? value, out TEnum result, EnumFormat format)
             where TEnum : struct => TryParse(value, false, out result, format);
 
         /// <summary>
@@ -1725,7 +1725,7 @@ namespace EnumsNET
         /// <param name="format1">The second parsing enum format.</param>
         /// <returns>Indication whether the conversion succeeded.</returns>
         /// <exception cref="ArgumentException"><paramref name="format0"/> or <paramref name="format1"/> is an invalid value.</exception>
-        public static bool TryParse<[EnumConstraint] TEnum>(string value, out TEnum result, EnumFormat format0, EnumFormat format1)
+        public static bool TryParse<[EnumConstraint] TEnum>(string? value, out TEnum result, EnumFormat format0, EnumFormat format1)
             where TEnum : struct => TryParse(value, false, out result, format0, format1);
 
         /// <summary>
@@ -1741,7 +1741,7 @@ namespace EnumsNET
         /// <param name="format2">The third parsing enum format.</param>
         /// <returns>Indication whether the conversion succeeded.</returns>
         /// <exception cref="ArgumentException"><paramref name="format0"/>, <paramref name="format1"/>, or <paramref name="format2"/> is an invalid value.</exception>
-        public static bool TryParse<[EnumConstraint] TEnum>(string value, out TEnum result, EnumFormat format0, EnumFormat format1, EnumFormat format2)
+        public static bool TryParse<[EnumConstraint] TEnum>(string? value, out TEnum result, EnumFormat format0, EnumFormat format1, EnumFormat format2)
             where TEnum : struct => TryParse(value, false, out result, format0, format1, format2);
 
         /// <summary>
@@ -1754,7 +1754,7 @@ namespace EnumsNET
         /// <param name="formats">The parsing enum formats.</param>
         /// <returns>Indication whether the conversion succeeded.</returns>
         /// <exception cref="ArgumentException"><paramref name="formats"/> contains an invalid value.</exception>
-        public static bool TryParse<[EnumConstraint] TEnum>(string value, out TEnum result, params EnumFormat[] formats)
+        public static bool TryParse<[EnumConstraint] TEnum>(string? value, out TEnum result, params EnumFormat[]? formats)
             where TEnum : struct => TryParse(value, false, out result, formats);
 
         /// <summary>
@@ -1766,7 +1766,7 @@ namespace EnumsNET
         /// <param name="ignoreCase">Indicates if the operation is case-insensitive.</param>
         /// <param name="result">If the conversion succeeds this contains a <typeparamref name="TEnum"/> value that is represented by <paramref name="value"/>.</param>
         /// <returns>Indication whether the conversion succeeded.</returns>
-        public static bool TryParse<[EnumConstraint] TEnum>(string value, bool ignoreCase, out TEnum result)
+        public static bool TryParse<[EnumConstraint] TEnum>(string? value, bool ignoreCase, out TEnum result)
             where TEnum : struct => Enums<TEnum>.Info.TryParse(value, ignoreCase, out result);
 
         /// <summary>
@@ -1781,7 +1781,7 @@ namespace EnumsNET
         /// <param name="format">The parsing enum format.</param>
         /// <returns>Indication whether the conversion succeeded.</returns>
         /// <exception cref="ArgumentException"><paramref name="format"/> is an invalid value.</exception>
-        public static bool TryParse<[EnumConstraint] TEnum>(string value, bool ignoreCase, out TEnum result, EnumFormat format)
+        public static bool TryParse<[EnumConstraint] TEnum>(string? value, bool ignoreCase, out TEnum result, EnumFormat format)
             where TEnum : struct => Enums<TEnum>.Info.TryParse(value, ignoreCase, out result, new ValueCollection<EnumFormat>(format));
 
         /// <summary>
@@ -1797,7 +1797,7 @@ namespace EnumsNET
         /// <param name="format1">The second parsing enum format.</param>
         /// <returns>Indication whether the conversion succeeded.</returns>
         /// <exception cref="ArgumentException"><paramref name="format0"/> or <paramref name="format1"/> is an invalid value.</exception>
-        public static bool TryParse<[EnumConstraint] TEnum>(string value, bool ignoreCase, out TEnum result, EnumFormat format0, EnumFormat format1)
+        public static bool TryParse<[EnumConstraint] TEnum>(string? value, bool ignoreCase, out TEnum result, EnumFormat format0, EnumFormat format1)
             where TEnum : struct => Enums<TEnum>.Info.TryParse(value, ignoreCase, out result, new ValueCollection<EnumFormat>(format0, format1));
 
         /// <summary>
@@ -1814,7 +1814,7 @@ namespace EnumsNET
         /// <param name="format2">The third parsing enum format.</param>
         /// <returns>Indication whether the conversion succeeded.</returns>
         /// <exception cref="ArgumentException"><paramref name="format0"/>, <paramref name="format1"/>, or <paramref name="format2"/> is an invalid value.</exception>
-        public static bool TryParse<[EnumConstraint] TEnum>(string value, bool ignoreCase, out TEnum result, EnumFormat format0, EnumFormat format1, EnumFormat format2)
+        public static bool TryParse<[EnumConstraint] TEnum>(string? value, bool ignoreCase, out TEnum result, EnumFormat format0, EnumFormat format1, EnumFormat format2)
             where TEnum : struct => Enums<TEnum>.Info.TryParse(value, ignoreCase, out result, new ValueCollection<EnumFormat>(format0, format1, format2));
 
         /// <summary>
@@ -1829,7 +1829,7 @@ namespace EnumsNET
         /// <param name="formats">The parsing enum formats.</param>
         /// <returns>Indication whether the conversion succeeded.</returns>
         /// <exception cref="ArgumentException"><paramref name="formats"/> contains an invalid value.</exception>
-        public static bool TryParse<[EnumConstraint] TEnum>(string value, bool ignoreCase, out TEnum result, params EnumFormat[] formats)
+        public static bool TryParse<[EnumConstraint] TEnum>(string? value, bool ignoreCase, out TEnum result, params EnumFormat[]? formats)
             where TEnum : struct => Enums<TEnum>.Info.TryParse(value, ignoreCase, out result, new ValueCollection<EnumFormat>(formats));
         #endregion
 
@@ -1869,7 +1869,7 @@ namespace EnumsNET
             throw new NotSupportedException($"Enum underlying type of {underlyingType} is not supported");
         }
 
-        internal static object GetCustomEnumValidator(Type enumType)
+        internal static object? GetCustomEnumValidator(Type enumType)
         {
             var validatorInterface = typeof(IEnumValidatorAttribute<>).MakeGenericType(enumType);
             foreach (var attribute in enumType.GetCustomAttributes(false))

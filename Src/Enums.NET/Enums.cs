@@ -29,6 +29,7 @@ using System.ComponentModel;
 using System.Threading;
 using EnumsNET.Numerics;
 
+#nullable enable
 namespace EnumsNET
 {
     /// <summary>

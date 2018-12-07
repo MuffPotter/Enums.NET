@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.Threading;
 using EnumsNET.Numerics;
 
+#nullable enable
 namespace EnumsNET
 {
     // Putting the logic here as opposed to directly in EnumMember<TEnum, TInt, TIntProvider>
@@ -70,8 +71,8 @@ namespace EnumsNET
         public string? AsString(EnumFormat format)
         {
             var isInitialized = true;
-            EnumMemberInternal<TInt, TIntProvider>? member = this;
-            return _enumCache.FormatInternal(Value, ref isInitialized, ref member, format);
+            var member = this;
+            return _enumCache.FormatInternal(Value, ref isInitialized, ref member!, format);
         }
 
         public string? AsString(ValueCollection<EnumFormat> formats) => _enumCache.FormatInternal(Value, this, formats);
@@ -84,21 +85,21 @@ namespace EnumsNET
         }
 
 #if ICONVERTIBLE
-        public sbyte ToSByte() => Value.ToSByte(null!);
+        public sbyte ToSByte() => Value.ToSByte(null);
 
-        public byte ToByte() => Value.ToByte(null!);
+        public byte ToByte() => Value.ToByte(null);
 
-        public short ToInt16() => Value.ToInt16(null!);
+        public short ToInt16() => Value.ToInt16(null);
 
-        public ushort ToUInt16() => Value.ToUInt16(null!);
+        public ushort ToUInt16() => Value.ToUInt16(null);
 
-        public int ToInt32() => Value.ToInt32(null!);
+        public int ToInt32() => Value.ToInt32(null);
 
-        public uint ToUInt32() => Value.ToUInt32(null!);
+        public uint ToUInt32() => Value.ToUInt32(null);
 
-        public long ToInt64() => Value.ToInt64(null!);
+        public long ToInt64() => Value.ToInt64(null);
 
-        public ulong ToUInt64() => Value.ToUInt64(null!);
+        public ulong ToUInt64() => Value.ToUInt64(null);
 #else
         public sbyte ToSByte() => EnumCache<TInt, TIntProvider>.Provider.ToSByte(Value);
 

@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+#nullable enable
 namespace EnumsNET.NonGeneric
 {
     /// <summary>
@@ -675,7 +676,7 @@ namespace EnumsNET.NonGeneric
         {
             var info = NonGenericEnums.GetNonGenericEnumInfo(enumType);
 
-            return info.EnumInfo.CombineFlags((info.IsNullable ? flags?.Where(flag => flag != null) : flags)!);
+            return info.EnumInfo.CombineFlags(info.IsNullable ? flags?.Where(flag => flag != null)! : (IEnumerable<object>)flags!);
         }
 
         /// <summary>
@@ -1015,7 +1016,7 @@ namespace EnumsNET.NonGeneric
         {
             var info = NonGenericEnums.GetNonGenericEnumInfo(enumType);
 
-            if (string.IsNullOrEmpty(value!) && info.IsNullable)
+            if (string.IsNullOrEmpty(value) && info.IsNullable)
             {
                 return null;
             }
@@ -1045,7 +1046,7 @@ namespace EnumsNET.NonGeneric
         {
             var info = NonGenericEnums.GetNonGenericEnumInfo(enumType);
 
-            if (string.IsNullOrEmpty(value!) && info.IsNullable)
+            if (string.IsNullOrEmpty(value) && info.IsNullable)
             {
                 return null;
             }
@@ -1076,7 +1077,7 @@ namespace EnumsNET.NonGeneric
         {
             var info = NonGenericEnums.GetNonGenericEnumInfo(enumType);
 
-            if (string.IsNullOrEmpty(value!) && info.IsNullable)
+            if (string.IsNullOrEmpty(value) && info.IsNullable)
             {
                 return null;
             }
@@ -1105,7 +1106,7 @@ namespace EnumsNET.NonGeneric
         {
             var info = NonGenericEnums.GetNonGenericEnumInfo(enumType);
 
-            if (string.IsNullOrEmpty(value!) && info.IsNullable)
+            if (string.IsNullOrEmpty(value) && info.IsNullable)
             {
                 return null;
             }
@@ -1392,7 +1393,7 @@ namespace EnumsNET.NonGeneric
         {
             var info = NonGenericEnums.GetNonGenericEnumInfo(enumType);
 
-            if (string.IsNullOrEmpty(value!) && info.IsNullable)
+            if (string.IsNullOrEmpty(value) && info.IsNullable)
             {
                 result = null;
                 return true;
@@ -1422,7 +1423,7 @@ namespace EnumsNET.NonGeneric
         {
             var info = NonGenericEnums.GetNonGenericEnumInfo(enumType);
 
-            if (string.IsNullOrEmpty(value!) && info.IsNullable)
+            if (string.IsNullOrEmpty(value) && info.IsNullable)
             {
                 result = null;
                 return true;
@@ -1453,7 +1454,7 @@ namespace EnumsNET.NonGeneric
         {
             var info = NonGenericEnums.GetNonGenericEnumInfo(enumType);
 
-            if (string.IsNullOrEmpty(value!) && info.IsNullable)
+            if (string.IsNullOrEmpty(value) && info.IsNullable)
             {
                 result = null;
                 return true;
@@ -1482,7 +1483,7 @@ namespace EnumsNET.NonGeneric
         {
             var info = NonGenericEnums.GetNonGenericEnumInfo(enumType);
 
-            if (string.IsNullOrEmpty(value!) && info.IsNullable)
+            if (string.IsNullOrEmpty(value) && info.IsNullable)
             {
                 result = null;
                 return true;

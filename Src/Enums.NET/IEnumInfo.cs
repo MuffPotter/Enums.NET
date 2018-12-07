@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using EnumsNET.Numerics;
 
+#nullable enable
 namespace EnumsNET
 {
     internal interface ICommonEnumInfo

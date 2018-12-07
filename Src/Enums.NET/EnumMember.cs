@@ -29,6 +29,7 @@ using System.ComponentModel;
 using System.Linq;
 using EnumsNET.Numerics;
 
+#nullable enable
 namespace EnumsNET
 {
     /// <summary>
@@ -56,7 +57,10 @@ namespace EnumsNET
         /// </summary>
         public AttributeCollection Attributes => Member.Attributes;
 
-        internal EnumMember(IEnumMember member) => Member = member;
+        internal EnumMember(IEnumMember member)
+        {
+            Member = member;
+        }
 
         /// <summary>
         /// Retrieves the enum member's name.
@@ -244,7 +248,7 @@ namespace EnumsNET
         /// </summary>
         /// <param name="other">The other <see cref="EnumMember"/>.</param>
         /// <returns>Indication whether the specified <see cref="EnumMember"/> is equal to the current <see cref="EnumMember"/>.</returns>
-        public bool Equals(EnumMember? other) => ReferenceEquals(this, other!);
+        public bool Equals(EnumMember? other) => ReferenceEquals(this, other);
 #pragma warning restore CS8614
 
 #pragma warning disable CS8610
@@ -253,7 +257,7 @@ namespace EnumsNET
         /// </summary>
         /// <param name="other">The other <see cref="object"/>.</param>
         /// <returns>Indication whether the specified <see cref="object"/> is equal to the current <see cref="object"/>.</returns>
-        public sealed override bool Equals(object? other) => ReferenceEquals(this, other!);
+        public sealed override bool Equals(object? other) => ReferenceEquals(this, other);
 #pragma warning restore CS8610
 
         internal abstract object GetValue();
@@ -339,7 +343,7 @@ namespace EnumsNET
         /// </summary>
         /// <param name="other">The other <see cref="EnumMember{TEnum}"/>.</param>
         /// <returns>Indication whether the specified <see cref="EnumMember{TEnum}"/> is equal to the current <see cref="EnumMember{TEnum}"/>.</returns>
-        public bool Equals(EnumMember<TEnum>? other) => ReferenceEquals(this, other!);
+        public bool Equals(EnumMember<TEnum>? other) => ReferenceEquals(this, other);
 #pragma warning restore CS8614
 
         internal abstract TEnum GetGenericValue();
@@ -348,9 +352,9 @@ namespace EnumsNET
 
         internal abstract IEnumerable<EnumMember<TEnum>> GetGenericFlagMembers();
 
-        internal sealed override object GetValue() => GetGenericValue();
+        internal sealed override object GetValue() => GetGenericValue()!;
 
-        internal sealed override IEnumerable<object> GetFlags() => GetGenericFlags().Select(flag => (object)flag);
+        internal sealed override IEnumerable<object> GetFlags() => GetGenericFlags().Select(flag => (object)flag!);
 
         internal sealed override IEnumerable<EnumMember> GetFlagMembers() => GetGenericFlagMembers()
 #if !COVARIANCE

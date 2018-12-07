@@ -1,4 +1,5 @@
-﻿namespace EnumsNET
+﻿#nullable enable
+namespace EnumsNET
 {
     // A struct that's foreach-able without allocations and supports up to 3 elements or an array
     internal struct ValueCollection<T>

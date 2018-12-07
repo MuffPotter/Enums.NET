@@ -28,6 +28,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 
+#nullable enable
 namespace EnumsNET.Unsafe
 {
     /// <summary>
@@ -37,7 +38,9 @@ namespace EnumsNET.Unsafe
     /// <typeparam name="TEnum">The enum type.</typeparam>
     public sealed class UnsafeEnumComparer<TEnum> : IEqualityComparer<TEnum>, IComparer<TEnum>, IEqualityComparer, IComparer
     {
+#pragma warning disable IDE0052 // Remove unread private members
         private static readonly IEnumInfo<TEnum>? s_info = UnsafeEnums<TEnum>.IsEnum ? Enums<TEnum>.Info : null;
+#pragma warning restore IDE0052 // Remove unread private members
         private static UnsafeEnumComparer<TEnum>? s_instance;
 
         /// <summary>
@@ -57,7 +60,10 @@ namespace EnumsNET.Unsafe
         /// <see cref="UnsafeEnumComparer{TEnum}"/> constructor, should use singleton property <see cref="Instance"/> instead.
         /// This constructor's public for visibility and serialization.
         /// </summary>
-        public UnsafeEnumComparer() => UnsafeEnums.GetInfo<TEnum>(); // Validates TEnum is an enum
+        public UnsafeEnumComparer()
+        {
+            UnsafeEnums.GetInfo<TEnum>(); // Validates TEnum is an enum
+        }
 
         /// <summary>
         /// Indicates if <paramref name="x"/> equals <paramref name="y"/> without boxing the values.

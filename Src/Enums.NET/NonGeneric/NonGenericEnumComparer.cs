@@ -26,6 +26,7 @@
 using System;
 using System.Collections;
 
+#nullable enable
 namespace EnumsNET.NonGeneric
 {
     /// <summary>

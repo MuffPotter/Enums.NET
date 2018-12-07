@@ -39,6 +39,7 @@ using System.Runtime.Serialization;
 using System.Threading;
 using EnumsNET.Numerics;
 
+#nullable enable
 namespace EnumsNET
 {
     internal sealed class EnumCache<TInt, TIntProvider>
@@ -142,7 +143,7 @@ namespace EnumsNET
             foreach (var field in fields)
             {
                 var name = field.Name;
-                var value = isBoolean ? fieldDictionary![name] : (TInt)field.GetValue(null!);
+                var value = isBoolean ? fieldDictionary![name] : (TInt)field.GetValue(null);
                 var attributes = new AttributeCollection(
 #if TYPE_REFLECTION
                     Attribute.GetCustomAttributes(field, false));
@@ -216,7 +217,7 @@ namespace EnumsNET
                 // Makes sure is in increasing order
                 duplicateValues.Sort((first, second) => first.Value.CompareTo(second.Value));
                 _duplicateValues = duplicateValues;
-                _duplicateValues!.Capacity = _duplicateValues!.Count;
+                _duplicateValues.Capacity = _duplicateValues.Count;
             }
         }
 
@@ -512,7 +513,7 @@ namespace EnumsNET
 
         public string AsString(TInt value, string? format) => AsStringInternal(value, null, format);
 
-        internal string AsStringInternal(TInt value, EnumMemberInternal<TInt, TIntProvider>? member, string? format) => string.IsNullOrEmpty(format!) ? AsStringInternal(value, member) : FormatInternal(value, member, format!);
+        internal string AsStringInternal(TInt value, EnumMemberInternal<TInt, TIntProvider>? member, string? format) => string.IsNullOrEmpty(format) ? AsStringInternal(value, member) : FormatInternal(value, member, format);
 
         public string Format(TInt value, string format)
         {
@@ -598,7 +599,7 @@ namespace EnumsNET
         #region Defined Values Main Methods
         public EnumMemberInternal<TInt, TIntProvider>? GetMember(TInt value)
         {
-            _valueMap.TryGetValue(value, out EnumMemberInternal<TInt, TIntProvider>? member);
+            _valueMap.TryGetValue(value, out var member);
             return member;
         }
 
@@ -613,7 +614,7 @@ namespace EnumsNET
                 formats = Enums.NameFormat;
             }
 
-            TryParseInternal(value, ignoreCase, out _, out EnumMemberInternal<TInt, TIntProvider>? member, formats, false);
+            TryParseInternal(value, ignoreCase, out _, out var member, formats, false);
             return member;
         }
         #endregion
@@ -731,13 +732,13 @@ namespace EnumsNET
                 return FormatInternal(value, member, formats);
             }
 
-            if (string.IsNullOrEmpty(delimiter!))
+            if (string.IsNullOrEmpty(delimiter))
             {
                 delimiter = FlagEnums.DefaultDelimiter;
             }
 
-            return string.Join(delimiter!,
-                GetFlags(value).Select(flag => FormatInternal(flag, null, formats))!
+            return string.Join(delimiter,
+                GetFlags(value).Select(flag => FormatInternal(flag, null, formats))
 #if NET20 || NET35
                 .ToArray()
 #endif
@@ -807,15 +808,15 @@ namespace EnumsNET
         {
             Preconditions.NotNull(value, nameof(value));
 
-            if (string.IsNullOrEmpty(delimiter!))
+            if (string.IsNullOrEmpty(delimiter))
             {
                 delimiter = FlagEnums.DefaultDelimiter;
             }
 
-            var effectiveDelimiter = delimiter!.Trim();
+            var effectiveDelimiter = delimiter.Trim();
             if (effectiveDelimiter.Length == 0)
             {
-                effectiveDelimiter = delimiter!;
+                effectiveDelimiter = delimiter;
             }
 
             if (!formats.Any())
@@ -868,15 +869,15 @@ namespace EnumsNET
                 return false;
             }
 
-            if (string.IsNullOrEmpty(delimiter!))
+            if (string.IsNullOrEmpty(delimiter))
             {
                 delimiter = FlagEnums.DefaultDelimiter;
             }
 
-            var effectiveDelimiter = delimiter!.Trim();
+            var effectiveDelimiter = delimiter.Trim();
             if (effectiveDelimiter.Length == 0)
             {
-                effectiveDelimiter = delimiter!;
+                effectiveDelimiter = delimiter;
             }
 
             if (!formats.Any())

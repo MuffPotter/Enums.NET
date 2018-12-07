@@ -26,6 +26,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+#nullable enable
 namespace EnumsNET
 {
     /// <summary>

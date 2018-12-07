@@ -25,6 +25,7 @@
 
 using System;
 
+#nullable enable
 namespace EnumsNET
 {
     internal interface IEnumMember : IFormattable

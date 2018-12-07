@@ -30,6 +30,7 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
+#nullable enable
 namespace EnumsNET.NonGeneric
 {
     /// <summary>
@@ -58,7 +59,7 @@ namespace EnumsNET.NonGeneric
 #else
                         GetTypeInfo().GetDeclaredField("Info")
 #endif
-                    .GetValue(null!), false);
+                    .GetValue(null), false);
             }
             else
             {
@@ -2032,7 +2033,7 @@ namespace EnumsNET.NonGeneric
         {
             var info = GetNonGenericEnumInfo(enumType);
 
-            if (info.IsNullable && string.IsNullOrEmpty(value!))
+            if (info.IsNullable && string.IsNullOrEmpty(value))
             {
                 return null;
             }
@@ -2061,7 +2062,7 @@ namespace EnumsNET.NonGeneric
         {
             var info = GetNonGenericEnumInfo(enumType);
 
-            if (info.IsNullable && string.IsNullOrEmpty(value!))
+            if (info.IsNullable && string.IsNullOrEmpty(value))
             {
                 return null;
             }
@@ -2091,7 +2092,7 @@ namespace EnumsNET.NonGeneric
         {
             var info = GetNonGenericEnumInfo(enumType);
 
-            if (info.IsNullable && string.IsNullOrEmpty(value!))
+            if (info.IsNullable && string.IsNullOrEmpty(value))
             {
                 return null;
             }
@@ -2119,7 +2120,7 @@ namespace EnumsNET.NonGeneric
         {
             var info = GetNonGenericEnumInfo(enumType);
 
-            if (info.IsNullable && string.IsNullOrEmpty(value!))
+            if (info.IsNullable && string.IsNullOrEmpty(value))
             {
                 return null;
             }

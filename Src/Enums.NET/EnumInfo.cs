@@ -32,6 +32,7 @@ using System.Security;
 #endif
 using EnumsNET.Numerics;
 
+#nullable enable
 namespace EnumsNET
 {
     // Class that acts as a bridge from the enum type to the underlying type
@@ -74,9 +75,12 @@ namespace EnumsNET
         internal static extern TEnum ToEnum(TInt value);
 
         private readonly EnumCache<TInt, TIntProvider> _cache;
-        private readonly IEnumValidatorAttribute<TEnum>? _customEnumValidator = (IEnumValidatorAttribute<TEnum>)Enums.GetCustomEnumValidator(typeof(TEnum));
+        private readonly IEnumValidatorAttribute<TEnum>? _customEnumValidator = (IEnumValidatorAttribute<TEnum>?)Enums.GetCustomEnumValidator(typeof(TEnum));
 
-        public EnumInfo() => _cache = new EnumCache<TInt, TIntProvider>(typeof(TEnum), this);
+        public EnumInfo()
+        {
+            _cache = new EnumCache<TInt, TIntProvider>(typeof(TEnum), this);
+        }
 
         #region Enums
         #region Properties
@@ -159,21 +163,21 @@ namespace EnumsNET
         public object GetUnderlyingValue(TEnum value) => ToInt(value);
 
 #if ICONVERTIBLE
-        public sbyte ToSByte(TEnum value) => ToInt(value).ToSByte(null!);
+        public sbyte ToSByte(TEnum value) => ToInt(value).ToSByte(null);
 
-        public byte ToByte(TEnum value) => ToInt(value).ToByte(null!);
+        public byte ToByte(TEnum value) => ToInt(value).ToByte(null);
 
-        public short ToInt16(TEnum value) => ToInt(value).ToInt16(null!);
+        public short ToInt16(TEnum value) => ToInt(value).ToInt16(null);
 
-        public ushort ToUInt16(TEnum value) => ToInt(value).ToUInt16(null!);
+        public ushort ToUInt16(TEnum value) => ToInt(value).ToUInt16(null);
 
-        public int ToInt32(TEnum value) => ToInt(value).ToInt32(null!);
+        public int ToInt32(TEnum value) => ToInt(value).ToInt32(null);
 
-        public uint ToUInt32(TEnum value) => ToInt(value).ToUInt32(null!);
+        public uint ToUInt32(TEnum value) => ToInt(value).ToUInt32(null);
 
-        public long ToInt64(TEnum value) => ToInt(value).ToInt64(null!);
+        public long ToInt64(TEnum value) => ToInt(value).ToInt64(null);
 
-        public ulong ToUInt64(TEnum value) => ToInt(value).ToUInt64(null!);
+        public ulong ToUInt64(TEnum value) => ToInt(value).ToUInt64(null);
 #else
         public sbyte ToSByte(TEnum value) => EnumCache<TInt, TIntProvider>.Provider.ToSByte(ToInt(value));
 
@@ -204,9 +208,9 @@ namespace EnumsNET
 
         public AttributeCollection? GetAttributes(TEnum value) => _cache.GetMember(ToInt(value))?.Attributes;
 
-        public EnumMember<TEnum>? GetMember(TEnum value) => (EnumMember<TEnum>)_cache.GetMember(ToInt(value))?.EnumMember;
+        public EnumMember<TEnum>? GetMember(TEnum value) => (EnumMember<TEnum>?)_cache.GetMember(ToInt(value))?.EnumMember;
 
-        public EnumMember<TEnum>? GetMember(string value, bool ignoreCase, ValueCollection<EnumFormat> formats) => (EnumMember<TEnum>)_cache.GetMember(value, ignoreCase, formats)?.EnumMember;
+        public EnumMember<TEnum>? GetMember(string value, bool ignoreCase, ValueCollection<EnumFormat> formats) => (EnumMember<TEnum>?)_cache.GetMember(value, ignoreCase, formats)?.EnumMember;
         #endregion
 
         #region Parsing

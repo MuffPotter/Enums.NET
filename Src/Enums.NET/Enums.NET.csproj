@@ -14,7 +14,7 @@
     <PackageId>Enums.NET</PackageId>
     <PackageTags>enum enums flag flags</PackageTags>
     <PackageProjectUrl>https://github.com/TylerBrinkley/Enums.NET</PackageProjectUrl>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/TylerBrinkley/Enums.NET/master/LICENSE.md</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/TylerBrinkley/Enums.NET</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <RootNamespace>EnumsNET</RootNamespace>
@@ -24,7 +24,7 @@
     <SignAssembly>False</SignAssembly>
     <DelaySign>False</DelaySign>
     <AssemblyOriginatorKeyFile>C:\Development\Releases\enumsnet.snk</AssemblyOriginatorKeyFile>
-    <LangVersion>7.1</LangVersion>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   
   <ItemGroup>
